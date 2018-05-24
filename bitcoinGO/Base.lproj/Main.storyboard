@@ -1,24 +1,391 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="AlteHaasGroteskBold.ttf">
+            <string>AlteHaasGrotesk_Bold</string>
+        </array>
+        <array key="AlteHaasGroteskRegular.ttf">
+            <string>AlteHaasGrotesk</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="bitcoinGO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="bg-black-to-blue" translatesAutoresizingMaskIntoConstraints="NO" id="y7R-ag-OVf">
+                                <rect key="frame" x="0.0" y="0.0" width="414.33333333333331" height="736"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="compass" translatesAutoresizingMaskIntoConstraints="NO" id="gAO-qZ-103">
+                                <rect key="frame" x="-50" y="14" width="514.33333333333337" height="570"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="gAO-qZ-103" secondAttribute="height" multiplier="257:285" id="wmK-E0-JGQ"/>
+                                </constraints>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="grey-btn" translatesAutoresizingMaskIntoConstraints="NO" id="790-l8-eZe">
+                                <rect key="frame" x="40.333333333333343" y="656.66666666666663" width="334.66666666666663" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="790-l8-eZe" secondAttribute="height" multiplier="67:8" id="nr0-iu-2GL"/>
+                                </constraints>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="blue-btn" translatesAutoresizingMaskIntoConstraints="NO" id="58a-RK-a8y">
+                                <rect key="frame" x="40.333333333333343" y="549.66666666666663" width="334.66666666666663" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="58a-RK-a8y" secondAttribute="height" multiplier="67:8" id="Grq-41-6ZO"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms of Service and Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GlO-kG-VKk">
+                                <rect key="frame" x="121.33333333333331" y="703" width="172" height="13.333333333333371"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="GlO-kG-VKk" secondAttribute="height" multiplier="272:21" id="AII-tS-hw4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="orange-btn" translatesAutoresizingMaskIntoConstraints="NO" id="Lod-V9-4DO">
+                                <rect key="frame" x="40.333333333333343" y="596.66666666666663" width="334.66666666666663" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Lod-V9-4DO" secondAttribute="height" multiplier="67:8" id="sUs-aM-3w0"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RjN-bm-jkS">
+                                <rect key="frame" x="40.333333333333343" y="596.66666666666663" width="334.66666666666663" height="39.333333333333371"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Sign up" backgroundImage="orange-btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="pbQ-nh-X3k" kind="show" id="AmW-6a-tRd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EHb-Pd-xr4">
+                                <rect key="frame" x="41" y="656.66666666666663" width="335" height="40.333333333333371"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Login" backgroundImage="grey-btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="G9S-GR-30j" kind="show" id="1j6-9h-lZu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox6-H0-pMr">
+                                <rect key="frame" x="40.333333333333343" y="549.66666666666663" width="334.66666666666663" height="40"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Continue with Facebook" backgroundImage="blue-btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebookButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uBl-zY-WGZ"/>
+                                </connections>
+                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="Be2-Nk-oNi">
+                                <rect key="frame" x="41" y="644" width="335" height="6"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Be2-Nk-oNi" secondAttribute="height" multiplier="62:1" constant="-37" id="ZlF-6T-FQX"/>
+                                </constraints>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="THE HUNT BEGINS NOW" translatesAutoresizingMaskIntoConstraints="NO" id="5NH-sN-14q">
+                                <rect key="frame" x="53.333333333333343" y="282" width="308" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="5NH-sN-14q" secondAttribute="height" multiplier="308:19" id="GNJ-f9-yUR"/>
+                                </constraints>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="bitcoinGO" translatesAutoresizingMaskIntoConstraints="NO" id="Mck-at-LVT">
+                                <rect key="frame" x="45.333333333333343" y="207" width="325" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Mck-at-LVT" secondAttribute="height" multiplier="325:56" id="OAn-X4-Jad"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="GlO-kG-VKk" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0he-js-6K1"/>
+                            <constraint firstItem="RjN-bm-jkS" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Lod-V9-4DO" secondAttribute="trailing" id="4o1-D3-PiM"/>
+                            <constraint firstItem="Ox6-H0-pMr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="58a-RK-a8y" secondAttribute="leading" id="7J0-6N-gew"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="top" secondItem="790-l8-eZe" secondAttribute="top" id="82M-sQ-ZtA"/>
+                            <constraint firstItem="Be2-Nk-oNi" firstAttribute="leading" secondItem="EHb-Pd-xr4" secondAttribute="leading" id="8Nj-w0-9fV"/>
+                            <constraint firstItem="Be2-Nk-oNi" firstAttribute="trailing" secondItem="EHb-Pd-xr4" secondAttribute="trailing" id="AFQ-53-Igx"/>
+                            <constraint firstItem="RjN-bm-jkS" firstAttribute="bottom" secondItem="Lod-V9-4DO" secondAttribute="bottom" id="CNz-0i-Tf9"/>
+                            <constraint firstItem="y7R-ag-OVf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Dzq-BV-TbP"/>
+                            <constraint firstItem="RjN-bm-jkS" firstAttribute="centerX" secondItem="Lod-V9-4DO" secondAttribute="centerX" id="ES6-tc-DSz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Lod-V9-4DO" secondAttribute="trailing" constant="39.333333333333371" id="EwB-4j-ZKO"/>
+                            <constraint firstItem="y7R-ag-OVf" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Frn-yW-VAe"/>
+                            <constraint firstItem="58a-RK-a8y" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="39.666666666666657" id="JI8-vT-jtE"/>
+                            <constraint firstItem="RjN-bm-jkS" firstAttribute="centerY" secondItem="Lod-V9-4DO" secondAttribute="centerY" id="Pkk-hU-Pgt"/>
+                            <constraint firstItem="gAO-qZ-103" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ppf-h6-3Kb"/>
+                            <constraint firstItem="Ox6-H0-pMr" firstAttribute="centerY" secondItem="58a-RK-a8y" secondAttribute="centerY" id="QT1-Sd-CSh"/>
+                            <constraint firstItem="RjN-bm-jkS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lod-V9-4DO" secondAttribute="leading" id="Rlv-Ga-dDO"/>
+                            <constraint firstItem="790-l8-eZe" firstAttribute="top" secondItem="Lod-V9-4DO" secondAttribute="bottom" constant="19.666666666666629" id="SQY-wE-6ne"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="centerX" secondItem="790-l8-eZe" secondAttribute="centerX" id="Shd-5r-FNy"/>
+                            <constraint firstItem="RjN-bm-jkS" firstAttribute="top" secondItem="Lod-V9-4DO" secondAttribute="top" id="TET-CH-nqZ"/>
+                            <constraint firstItem="Ox6-H0-pMr" firstAttribute="centerX" secondItem="58a-RK-a8y" secondAttribute="centerX" id="UM3-l8-IQp"/>
+                            <constraint firstItem="Mck-at-LVT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="187" id="V2l-HU-hYu"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="58a-RK-a8y" secondAttribute="trailing" constant="39.333333333333371" id="X2b-fc-1B5"/>
+                            <constraint firstItem="y7R-ag-OVf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XaC-LJ-mWz"/>
+                            <constraint firstItem="Lod-V9-4DO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="39.666666666666657" id="YMz-8e-W7n"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="top" secondItem="Be2-Nk-oNi" secondAttribute="bottom" constant="7" id="Z8h-Cb-JR2"/>
+                            <constraint firstItem="y7R-ag-OVf" firstAttribute="baseline" secondItem="GlO-kG-VKk" secondAttribute="firstBaseline" constant="23.329999999999998" id="ac4-0s-dLT"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="bottom" secondItem="790-l8-eZe" secondAttribute="bottom" id="acR-6L-36C"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="gAO-qZ-103" secondAttribute="top" constant="6" id="awU-qw-hXm"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="790-l8-eZe" secondAttribute="leading" id="byQ-pv-Pnw"/>
+                            <constraint firstItem="Ox6-H0-pMr" firstAttribute="top" secondItem="58a-RK-a8y" secondAttribute="top" id="cb6-ZO-qxW"/>
+                            <constraint firstItem="Ox6-H0-pMr" firstAttribute="bottom" secondItem="58a-RK-a8y" secondAttribute="bottom" id="fCC-iy-3FL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="790-l8-eZe" secondAttribute="trailing" constant="39.333333333333371" id="hLp-St-oX0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Mck-at-LVT" secondAttribute="trailing" constant="44" id="j5y-Ue-S8j"/>
+                            <constraint firstItem="Mck-at-LVT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="45" id="jeS-UV-4Ev"/>
+                            <constraint firstItem="Ox6-H0-pMr" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="58a-RK-a8y" secondAttribute="trailing" id="l2o-Vt-0Lv"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="790-l8-eZe" secondAttribute="trailing" id="lSJ-dz-p8S"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5NH-sN-14q" secondAttribute="trailing" constant="53" id="oQE-pn-TB7"/>
+                            <constraint firstItem="5NH-sN-14q" firstAttribute="top" secondItem="Mck-at-LVT" secondAttribute="bottom" constant="19" id="pxz-bk-Tm9"/>
+                            <constraint firstItem="Be2-Nk-oNi" firstAttribute="top" secondItem="RjN-bm-jkS" secondAttribute="bottom" constant="7.6666666666667425" id="r6I-oD-ucy"/>
+                            <constraint firstItem="EHb-Pd-xr4" firstAttribute="centerY" secondItem="790-l8-eZe" secondAttribute="centerY" id="rkq-jY-Bfy"/>
+                            <constraint firstItem="Lod-V9-4DO" firstAttribute="top" secondItem="58a-RK-a8y" secondAttribute="bottom" constant="7.6666666666666288" id="sJz-x3-Za5"/>
+                            <constraint firstItem="5NH-sN-14q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="53" id="sUK-Vn-fnM"/>
+                            <constraint firstItem="790-l8-eZe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="39.666666666666657" id="tBE-F4-1xt"/>
+                            <constraint firstItem="GlO-kG-VKk" firstAttribute="top" secondItem="790-l8-eZe" secondAttribute="bottom" constant="6.3333333333333712" id="thd-B9-ma4"/>
+                            <constraint firstItem="y7R-ag-OVf" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="vxN-6v-GtM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <segue destination="3WG-bl-LXr" kind="show" identifier="push" id="BQp-Wu-4Yd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="208" y="191"/>
+        </scene>
+        <!--Sign Up View Controller-->
+        <scene sceneID="A8U-J0-Z3k">
+            <objects>
+                <viewController id="pbQ-nh-X3k" customClass="SignUpViewController" customModule="bitcoinGO" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fBu-Ug-2V1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bav-QT-Wwf">
+                                <rect key="frame" x="40" y="116" width="336" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d6J-GA-iZR">
+                                <rect key="frame" x="41" y="187" width="335" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMN-de-CMc">
+                                <rect key="frame" x="41" y="348" width="335" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Next" backgroundImage="orange-btn"/>
+                                <connections>
+                                    <action selector="smsVerification:" destination="pbQ-nh-X3k" eventType="touchUpInside" id="SeZ-1v-uG9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kkr-DV-oYO">
+                                <rect key="frame" x="40" y="436" width="335" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Verify" backgroundImage="orange-btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="verify:" destination="pbQ-nh-X3k" eventType="touchUpInside" id="j8t-6m-ItQ"/>
+                                </connections>
+                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" image="bitcoinGO-blk" translatesAutoresizingMaskIntoConstraints="NO" id="ezg-eq-yLw">
+                                <rect key="frame" x="46" y="20" width="325" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EnS-Kw-q0w">
+                                <rect key="frame" x="41" y="262" width="335" height="78"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="xyy-8z-Se3"/>
+                    </view>
+                    <connections>
+                        <outlet property="phoneNumber" destination="Bav-QT-Wwf" id="DaF-64-APO"/>
+                        <outlet property="status" destination="EnS-Kw-q0w" id="ZUs-Nt-gQP"/>
+                        <outlet property="verificationCode" destination="d6J-GA-iZR" id="Pf5-el-Afe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vtw-wc-KRj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="931.88405797101461" y="-183.42391304347828"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Nmg-ro-x1R">
+            <objects>
+                <viewController restorationIdentifier="LogInViewController" storyboardIdentifier="LogInViewController" id="G9S-GR-30j" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nNx-KB-hmQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" image="bitcoinGO-blk" translatesAutoresizingMaskIntoConstraints="NO" id="1fX-Fj-8My">
+                                <rect key="frame" x="45" y="20" width="325" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="phone number, user name or email" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="10" background="text-box" disabledBackground="text-box" translatesAutoresizingMaskIntoConstraints="NO" id="3rI-8H-6qe">
+                                <rect key="frame" x="45" y="116" width="325" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="10" background="text-box" disabledBackground="text-box" translatesAutoresizingMaskIntoConstraints="NO" id="FOa-KQ-zVx">
+                                <rect key="frame" x="45" y="161" width="325" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Og9-6O-w4T">
+                                <rect key="frame" x="45" y="205" width="12" height="12"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="blue-btn"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIE-vJ-tun">
+                                <rect key="frame" x="65" y="204" width="88" height="14"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk" family="Alte Haas Grotesk" pointSize="12"/>
+                                <color key="textColor" red="0.37254901960784315" green="0.37254901960784315" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lb3-mD-lt3">
+                                <rect key="frame" x="271" y="198" width="99" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk" family="Alte Haas Grotesk" pointSize="12"/>
+                                <state key="normal" title="Forgot Password?"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrd-eA-BYZ">
+                                <rect key="frame" x="40" y="332" width="335" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Continue with Facebook" backgroundImage="blue-btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000000000002" contentMode="center" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="H9r-0q-aEE">
+                                <rect key="frame" x="40" y="311" width="124" height="1"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.40000000000000002" contentMode="center" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="Mr2-ZO-bD0">
+                                <rect key="frame" x="252" y="311" width="123" height="1"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FBH-7f-vFy">
+                                <rect key="frame" x="198" y="303" width="18" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
+                                <color key="textColor" red="0.83529411764705885" green="0.83529411764705885" blue="0.83529411764705885" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" alpha="0.05000000074505806" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OlN-96-GGU">
+                                <rect key="frame" x="0.0" y="696" width="414" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="59F-ID-Xg6"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FNt-rz-bFN">
+                                <rect key="frame" x="40" y="250" width="335" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
+                                <state key="normal" title="Next" backgroundImage="orange-btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ylU-ug-gXB">
+                                <rect key="frame" x="118.00000000000001" y="704" width="179.33333333333337" height="25"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account yet? " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agy-83-0ES">
+                                        <rect key="frame" x="0.0" y="0.0" width="138.33333333333334" height="25"/>
+                                        <fontDescription key="fontDescription" name="AlteHaasGrotesk" family="Alte Haas Grotesk" pointSize="11"/>
+                                        <color key="textColor" red="0.68235294117647061" green="0.68235294117647061" blue="0.68235294117647061" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSD-tv-vRI">
+                                        <rect key="frame" x="138.33333333333331" y="0.0" width="41" height="25"/>
+                                        <fontDescription key="fontDescription" name="AlteHaasGrotesk" family="Alte Haas Grotesk" pointSize="11"/>
+                                        <state key="normal" title="Sign up."/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="OlN-96-GGU" firstAttribute="leading" secondItem="KMv-Jc-PdI" secondAttribute="leading" id="Dad-Ay-YiF"/>
+                            <constraint firstItem="KMv-Jc-PdI" firstAttribute="trailing" secondItem="OlN-96-GGU" secondAttribute="trailing" id="KB0-CE-RiC"/>
+                            <constraint firstItem="ylU-ug-gXB" firstAttribute="centerX" secondItem="OlN-96-GGU" secondAttribute="centerX" id="Kwp-W6-oME"/>
+                            <constraint firstItem="ylU-ug-gXB" firstAttribute="centerY" secondItem="OlN-96-GGU" secondAttribute="centerY" id="Yul-vl-pNg"/>
+                            <constraint firstItem="KMv-Jc-PdI" firstAttribute="bottom" secondItem="OlN-96-GGU" secondAttribute="bottom" id="qyy-Qw-J84"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="KMv-Jc-PdI"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z55-1j-O9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="931.88405797101461" y="553.53260869565224"/>
+        </scene>
+        <!--MapViewController-->
+        <scene sceneID="0OB-Bt-VvE">
+            <objects>
+                <viewController storyboardIdentifier="MapViewController" title="MapViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3WG-bl-LXr" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z4t-S8-ci1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vjv-CB-Okl">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="9pd-Od-msy"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s4X-wF-0vM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2593" y="211"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Line" width="372" height="1"/>
+        <image name="THE HUNT BEGINS NOW" width="308" height="19"/>
+        <image name="bg-black-to-blue" width="320" height="568"/>
+        <image name="bitcoinGO" width="325" height="56"/>
+        <image name="bitcoinGO-blk" width="325" height="56"/>
+        <image name="blue-btn" width="335" height="40"/>
+        <image name="compass" width="514" height="570"/>
+        <image name="grey-btn" width="335" height="40"/>
+        <image name="orange-btn" width="335" height="40"/>
+        <image name="text-box" width="335" height="40"/>
+    </resources>
 </document>
