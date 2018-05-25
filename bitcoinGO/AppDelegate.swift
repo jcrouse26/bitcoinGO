@@ -12,7 +12,6 @@ import FacebookLogin
 import FBSDKLoginKit
 
 
-
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,10 +28,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation] ?? [])
         
         return handled
         
+    }
+    
+    /*func handlePasswordlessSignIn(withURL url: URL) -> Bool {
+        let link = url.absoluteString
+        // [START is_signin_link]
+        if Auth.auth().isSignIn(withEmailLink: link) {
+            // [END is_signin_link]
+            UserDefaults.standard.set(link, forKey: "Link")
+            (window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+            window?.rootViewController?.childViewControllers[0].performSegue(withIdentifier: "passwordless", sender: nil)
+            return true
+        }
+        return false
+    }*/
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+            // ...
+        }
+        
+        
+        return handled
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

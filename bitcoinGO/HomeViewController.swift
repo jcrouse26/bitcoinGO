@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  bitcoinGO
 //
 //  Created by Jason Crouse on 5/17/18.
@@ -11,11 +11,15 @@ import FacebookLogin
 import FacebookCore
 import Firebase
 
-class ViewController: UIViewController, LoginButtonDelegate {
+class HomeViewController: UIViewController, LoginButtonDelegate {
     
     @IBOutlet weak var textField: UITextField!
+   
+    @IBAction func action(_ sender: Any) {
+        
+    }
     
-    @IBAction func facebookButton(_ sender: Any) {
+    @IBAction func didTapFacebookButton(_ sender: Any) {
         let loginManager = LoginManager()
         
         loginManager.logIn(readPermissions: [ .publicProfile, .email, .userLocation], viewController: self) { LoginResult in
@@ -38,7 +42,7 @@ class ViewController: UIViewController, LoginButtonDelegate {
             }
         }
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +51,6 @@ class ViewController: UIViewController, LoginButtonDelegate {
         if AccessToken.current != nil {
             // User is logged in, use 'accessToken' here.
             print("user ", AccessToken.current?.userId as Any, "is logged in")
-            
-            //let MapViewController = ViewController(nibName: "MapViewController", bundle: nil)
-            //self.navigationController?.pushViewController(MapViewController, animated: true)
-            
         }
         
     }

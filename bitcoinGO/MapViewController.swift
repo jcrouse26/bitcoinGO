@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import ARCL
+import CoreLocation
 
 class MapViewController: UIViewController {
+    
+    var sceneLocationView = SceneLocationView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
