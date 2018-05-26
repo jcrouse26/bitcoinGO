@@ -83,12 +83,19 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
         Auth.auth().signInAndRetrieveData(with: credentials) { (user, error) in
             if error != nil {
                 print("ya fucked up", error as Any)
+                return
             }
             print("successfully logged in with", user as Any)
         }
         
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        // Segue to MapViewController if user is logged in
+        if AccessToken.current != nil {
+            performSegue(withIdentifier: "pushToMapView", sender: self)
+        }
+    }
     
     func loginButtonDidLogOut(_ loginButton: LoginButton) {
         // some code here
