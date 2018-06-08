@@ -1,151 +1,195 @@
+/*
 //
-//  MapViewController.swift
-//  bitcoinGO
-//
-//  Created by Jason Crouse on 5/23/18.
-//  Copyright © 2018 Jason Crouse. All rights reserved.
-//
+////
+////////
+////////////
+////////////////
+//////// Copyright
+//// Jason Crouse
+/ 2 /\ 0 /\ 1 /\ 8 /
+/ 0 /
+/ 1 /
+/ 8 /
+*/
+
+
 
 import UIKit
-import GoogleMaps
-import GooglePlaces
+import MapKit
+import CoreLocation
+import ARKit
+import GeoFire
+import Firebase
+import FirebaseDatabase
 
 class MapViewController: UIViewController {
-    
-    var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
-    var mapView: GMSMapView!
-    var placesClient: GMSPlacesClient!
-    var zoomLevel: Float = 15.0
-    
-    // An array to hold the list of likely places.
-    var likelyPlaces: [GMSPlace] = []
-    
-    // The currently selected place.
-    var selectedPlace: GMSPlace?
-    
-    // A default location to use when location permission is not granted.
-    let defaultLocation = CLLocation(latitude: -33.869405, longitude: 151.199)
+	
+	@IBOutlet weak var mapView: MKMapView!
+	var winnings : [String] = []
+	let locationManager = CLLocationManager()
+	var userLocation: CLLocation?
+	var targets = [ARItem]()
+	var previousDegrees : Double = -75 // set heading for WNW
+	var didSetUserLocation = false
+	
+	// This is for database
+	var ref : DatabaseReference!
+	
+	var geoFireRef: DatabaseReference?
+	var geoFire: GeoFire?
+	
+	@IBOutlet weak var winningsLabel: UILabel!
+	
+	let belcher : CLLocation = CLLocation(latitude: 37.768360, longitude: -122.430378)
+	
+	func setupLocations() {
+		// IMPORTANT: Item descriptions must be unique
+		let firstTarget : ARItem?
+		if let userLocation = self.userLocation {
+			firstTarget = ARItem(itemDescription: "\(winnings.count)", location: userLocation, itemNode: nil)
+			targets.append(firstTarget!)
+			didSetUserLocation = true
+		}
+		
+		// In this loop you iterate through all items inside the targets array and add an annotation for each target.
+		for item in targets {
+			let annotation = MapAnnotation(location: item.location.coordinate, item: item)
+			if !winnings.contains(annotation.item.itemDescription) {
+				self.mapView.addAnnotation(annotation)
+			}
+		}
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
+		setupLocations()
+		
+		
+		if CLLocationManager.authorizationStatus() == .notDetermined {
+			locationManager.requestWhenInUseAuthorization()
+		}
+		
+		// this is for database
+		ref = Database.database().reference()
+		
+		// This is for GeoFire
+		geoFireRef = Database.database().reference().child("Geolocs")
+		
+		geoFire = GeoFire(firebaseRef: geoFireRef!)
+	}
 
-    // Update the map once the user has made their selection.
-    @IBAction func unwindToMain(segue: UIStoryboardSegue) {
-        // Clear the map.
-        mapView.clear()
-        
-        // Add a marker to the map.
-        if selectedPlace != nil {
-            let marker = GMSMarker(position: (self.selectedPlace?.coordinate)!)
-            marker.title = selectedPlace?.name
-            marker.snippet = selectedPlace?.formattedAddress
-            marker.map = mapView
-        }
-        
-        listLikelyPlaces()
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        // Initialize location manager
-        locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.distanceFilter = 50
-        locationManager.startUpdatingLocation()
-        locationManager.delegate = self
-        
-        placesClient = GMSPlacesClient.shared()
-        
-        // Create a map.
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude,
-                                              longitude: defaultLocation.coordinate.longitude,
-                                              zoom: zoomLevel)
-        mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
-        mapView.settings.myLocationButton = true
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.isMyLocationEnabled = true
-        
-        // Add the map to the view, hide it until we&#39;ve got a location update.
-        view.addSubview(mapView)
-        mapView.isHidden = true
-        
-        listLikelyPlaces()
-        
-    }
-    
-    // Populate the array with the list of likely places.
-    func listLikelyPlaces() {
-        // Clean up from previous sessions.
-        likelyPlaces.removeAll()
-        
-        placesClient.currentPlace(callback: { (placeLikelihoods, error) -> Void in
-            if let error = error {
-                // TODO: Handle the error.
-                print("Current Place error: \(error.localizedDescription)")
-                return
-            }
-            
-            // Get likely places and add to the list.
-            if let likelihoodList = placeLikelihoods {
-                for likelihood in likelihoodList.likelihoods {
-                    let place = likelihood.place
-                    self.likelyPlaces.append(place)
-                }
-            }
-        })
-    }
-    
-    // Prepare the segue.
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueToSelect" {
-            if let nextViewController = segue.destination as? PlacesViewController {
-                nextViewController.likelyPlaces = likelyPlaces
-            }
-        }
-    }
 }
 
-extension MapViewController: CLLocationManagerDelegate {
-    
-    // Handle authorization for the location manager.
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .restricted:
-            print("Location access was restricted.")
-        case .denied:
-            print("User denied access to location.")
-            // Display the map using the default location.
-            mapView.isHidden = false
-        case .notDetermined:
-            print("Location status not determined.")
-        case .authorizedAlways: fallthrough
-        case .authorizedWhenInUse:
-            print("Location status is OK.")
-        }
-    }
-    
-    // Handle incoming location events.
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last!
-        print("Location: \(location)")
-        
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude,
-                                              longitude: defaultLocation.coordinate.longitude,
-                                              zoom: zoomLevel)
-        
-        if mapView.isHidden {
-            mapView.isHidden = false
-            mapView.camera = camera
-        } else {
-            mapView.animate(to: camera)
-        }
-        
-        listLikelyPlaces()
-    }
-    
-    // Handle location manager errors.
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        locationManager.stopUpdatingLocation()
-        print("Error: \(error)")
-    }
+extension MapViewController: MKMapViewDelegate {
+	
+	func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+		self.userLocation = userLocation.location
+		if didSetUserLocation == false {
+			setupLocations()
+		}
+	}
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+		guard let annotation = annotation as? MapAnnotation else { return nil }
+		if annotation.captured == false { return nil }
+		let identifier = "pin"
+		var view: MKPinAnnotationView
+		if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+			dequeuedView.annotation = annotation
+			view = dequeuedView
+		} else {
+			view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+			view.pinTintColor = UIColor.lightGray
+		}
+		return view
+	}
+	
+	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+		
+		// Return and deselect if user has selected "My Location" instead of a pin
+		if view.annotation?.title! == "My Location" {
+			self.mapView.deselectAnnotation(view.annotation, animated: true)
+			mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
+			return
+		}
+		if view.reuseIdentifier! == "pin" {
+			// create an alert saying you've already won
+			// let alert = UIAlertController(title: "Nice Try!", message: "You already collected this one. Get off your ass and collect a new one.", preferredStyle: UIAlertControllerStyle.alert)
+			
+			// alert.addAction(UIAlertAction(title: "I'm sorry, won't happen again", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in }))
+			// self.present(alert, animated: true)
+			
+			// deselect this pin and return
+			self.mapView.deselectAnnotation(view.annotation, animated: true)
+			return
+		}
+		
+		
+		// Here you get the coordinate of the selected annotation.
+		let coordinate = view.annotation!.coordinate
+		
+		// Make sure the optional userLocation is populated.
+		if let userCoordinate = userLocation {
+			
+			// Make sure the tapped item is within range of the users location.
+			if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= 4500 {
+				// Add to array of winnings
+				
+				if let title = view.annotation!.title! {
+					// If we wanted to do an AR Screen... we'd do it here
+					// For now... just let the homies get their prize... FOR FREE!
+					
+					winnings.append(title)
+					winningsLabel.text = String(winnings.count)
+					
+					
+					self.geoFire?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
+
+					
+					// Add vibration so John's ladies can truly enjoy BitcoinGO ;)
+					AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+					
+					// create next object
+					
+					// Do some math to come up with next point, based on current point and previous path
+					let currentLat = coordinate.latitude
+					let currentLong = coordinate.longitude
+					let multiplier = 0.00135 // this is approximately 150 meters
+					let randDegrees = Double(arc4random_uniform(180)) - 90
+					let nextCoordinateLat = currentLat + multiplier*__cospi((randDegrees + previousDegrees)/180)
+					let nextCoordinateLong = currentLong + multiplier*__sinpi((randDegrees + previousDegrees)/180)
+					
+					// Put the pieces together to do the appropriate adding/removing of pins on the map, and CHANGE COLOR
+					let newTarget = ARItem(itemDescription: "Pin \(winnings.count)", location: CLLocation(latitude: nextCoordinateLat, longitude: nextCoordinateLong), itemNode: nil)
+					let newAnnotation = MapAnnotation(location: newTarget.location.coordinate, item: newTarget)
+					self.mapView.addAnnotation(newAnnotation)
+					
+					// Some math to ensure proper bearing for next time
+					previousDegrees = randDegrees + previousDegrees
+					
+					// Attempt to create it as a MapAnnotation (custom class)
+					guard let annotation = view.annotation as? MapAnnotation else { return }
+					annotation.captured = true
+					
+					// Remove and add new annotation to map
+					self.mapView.removeAnnotation(view.annotation!)
+					self.mapView.addAnnotation(annotation)
+					
+				}
+				
+			} else if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) > 40 {
+				let distance = Int(userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)))
+				let alert = UIAlertController(title: "Sorry", message: "You are \(distance) meters away. That's too far to get rich. Don't be lazy!", preferredStyle: UIAlertControllerStyle.alert)
+				
+				alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in }))
+				self.present(alert, animated: true)
+				
+			}
+			self.mapView.deselectAnnotation(view.annotation, animated: true)
+		}
+		mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
+	}
+	
 }
+

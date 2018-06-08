@@ -14,8 +14,7 @@ target 'bitcoinGO' do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FacebookShare'
-  pod 'GoogleMaps'
-  pod 'GooglePlaces' 
+  pod ‘GeoFire’, :git => ‘https://github.com/firebase/geofire-objc.git'
 
 
   target 'bitcoinGOTests' do

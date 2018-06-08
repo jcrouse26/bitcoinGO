@@ -48,7 +48,7 @@ class SignUpViewController: UIViewController {
         // If user has been verified before, enter game
         if UserDefaults.standard.bool(forKey: "phoneVerified") == true {
             print("user already verified via phone")
-            self.performSegue(withIdentifier: "segueToMapView", sender: self)
+            self.performSegue(withIdentifier: "pushToMapView", sender: self)
         }
         
         // Restore verification ID
@@ -72,7 +72,7 @@ class SignUpViewController: UIViewController {
             }
             // User is signed in
             UserDefaults.standard.set(true, forKey: "phoneVerified")
-            self.performSegue(withIdentifier: "segueToMapView", sender: self)
+            self.performSegue(withIdentifier: "pushToMapView", sender: self)
         }
     }
     

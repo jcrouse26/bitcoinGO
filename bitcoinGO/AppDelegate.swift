@@ -10,8 +10,6 @@ import UIKit
 import Firebase
 import FacebookLogin
 import FBSDKLoginKit
-import GoogleMaps
-import GooglePlaces
 
 
 @UIApplicationMain
@@ -23,8 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        GMSServices.provideAPIKey("AIzaSyDtCcprXvhzXh0vkN4Q0twrjCAJ3VJPHbo")
-        GMSPlacesClient.provideAPIKey("AIzaSyBNVdW7p-3yafzU-J1q3I_A8log0hdswEo")
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
