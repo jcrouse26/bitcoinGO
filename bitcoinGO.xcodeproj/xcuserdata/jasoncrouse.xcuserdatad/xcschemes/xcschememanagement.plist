@@ -4,29 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>bitcoinGO.xcscheme</key>
+		<key>Bolts.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>6E68ED2320AE155B00A2DD47</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6E68ED3720AE155E00A2DD47</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6E68ED4220AE155F00A2DD47</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
 </dict>
 </plist>
