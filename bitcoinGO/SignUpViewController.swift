@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SinchVerification
 import Firebase
 
 
@@ -18,7 +17,6 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var verifyButton: UIButton!
     
-    var verification : Verification!
     var applicationKey = "3924773d-fb21-4f1b-af25-f460e911c343"
 
     @IBAction func smsVerification(_ sender: Any) {

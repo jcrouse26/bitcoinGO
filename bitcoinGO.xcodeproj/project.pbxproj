@@ -22,9 +22,10 @@
 		6E68ED4820AE155F00A2DD47 /* bitcoinGOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68ED4720AE155F00A2DD47 /* bitcoinGOUITests.swift */; };
 		6E68ED5620AE159500A2DD47 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E68ED5520AE159500A2DD47 /* GoogleService-Info.plist */; };
 		6EB68BE520B6395B00C45739 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB68BE420B6395B00C45739 /* MapViewController.swift */; };
-		6EB68BE720B7524300C45739 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB68BE620B7524300C45739 /* SignUpViewController.swift */; };
 		8440C8EB56798EEF668BD058 /* Pods_bitcoinGOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224FC55928D856C7228B5F8C /* Pods_bitcoinGOUITests.framework */; };
 		CD62F29B3F5C5242FA425BAE /* Pods_bitcoinGOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 738D8755E8126161063A53CC /* Pods_bitcoinGOTests.framework */; };
+		E0B6B91C20BD499F00E1B8E5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B6B91B20BD499F00E1B8E5 /* SignUpViewController.swift */; };
+		E0B6B91E20C1C7AC00E1B8E5 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B6B91D20C1C7AC00E1B8E5 /* PlacesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,9 +73,10 @@
 		6E68ED5520AE159500A2DD47 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6EB68BE320B621D200C45739 /* AlteHaasGroteskBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlteHaasGroteskBold.ttf; sourceTree = "<group>"; };
 		6EB68BE420B6395B00C45739 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		6EB68BE620B7524300C45739 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = /Users/jcrouse/Documents/bitcoinGO/bitcoinGO/SignUpViewController.swift; sourceTree = "<absolute>"; };
 		6EEC0BC420AE71420065D724 /* AlteHaasGroteskRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlteHaasGroteskRegular.ttf; sourceTree = "<group>"; };
 		738D8755E8126161063A53CC /* Pods_bitcoinGOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bitcoinGOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0B6B91B20BD499F00E1B8E5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E0B6B91D20C1C7AC00E1B8E5 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		E266BE0F7E425AB5A204A559 /* Pods-bitcoinGO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bitcoinGO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bitcoinGO/Pods-bitcoinGO.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,8 +138,9 @@
 				6E68ED2720AE155B00A2DD47 /* AppDelegate.swift */,
 				6E68ED2B20AE155B00A2DD47 /* Main.storyboard */,
 				6E68ED2920AE155B00A2DD47 /* HomeViewController.swift */,
-				6EB68BE620B7524300C45739 /* SignUpViewController.swift */,
+				E0B6B91B20BD499F00E1B8E5 /* SignUpViewController.swift */,
 				6EB68BE420B6395B00C45739 /* MapViewController.swift */,
+				E0B6B91D20C1C7AC00E1B8E5 /* PlacesViewController.swift */,
 				6E1DFFF020B4C76D0037F27D /* LabelExtension.swift */,
 				6E68ED2E20AE155E00A2DD47 /* Assets.xcassets */,
 				6E68ED3020AE155E00A2DD47 /* LaunchScreen.storyboard */,
@@ -211,6 +214,7 @@
 				6E68ED2120AE155B00A2DD47 /* Frameworks */,
 				6E68ED2220AE155B00A2DD47 /* Resources */,
 				78DCF1FD726C3DB3285B8168 /* [CP] Embed Pods Frameworks */,
+				83AFBBE4804FF2E5BAAE5F9A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -368,7 +372,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-bitcoinGO/Pods-bitcoinGO-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ARCL/ARCL.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -378,12 +381,10 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/SinchVerification-Swift/SinchVerification.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCL.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
@@ -393,7 +394,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SinchVerification.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +417,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		83AFBBE4804FF2E5BAAE5F9A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-bitcoinGO/Pods-bitcoinGO-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-bitcoinGO/Pods-bitcoinGO-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		99461309610B8D22A5A23757 /* [CP] Check Pods Manifest.lock */ = {
@@ -444,11 +464,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0B6B91E20C1C7AC00E1B8E5 /* PlacesViewController.swift in Sources */,
+				E0B6B91C20BD499F00E1B8E5 /* SignUpViewController.swift in Sources */,
 				6E68ED2A20AE155B00A2DD47 /* HomeViewController.swift in Sources */,
 				6E68ED2820AE155B00A2DD47 /* AppDelegate.swift in Sources */,
 				6E1DFFF120B4C76D0037F27D /* LabelExtension.swift in Sources */,
 				6EB68BE520B6395B00C45739 /* MapViewController.swift in Sources */,
-				6EB68BE720B7524300C45739 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

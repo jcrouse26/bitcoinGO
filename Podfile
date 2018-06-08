@@ -14,8 +14,8 @@ target 'bitcoinGO' do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FacebookShare'
-  pod 'SinchVerification-Swift'
-  pod 'ARCL'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces' 
 
 
   target 'bitcoinGOTests' do

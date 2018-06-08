@@ -37,7 +37,7 @@
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="phone number" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bav-QT-Wwf">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="phone number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bav-QT-Wwf">
                                 <rect key="frame" x="40" y="116" width="335" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Bav-QT-Wwf" secondAttribute="height" multiplier="56:5" constant="-1" id="IbY-9J-JQa"/>
@@ -441,8 +441,8 @@ can opt out at any time.</string>
         <image name="text-box" width="335" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OSM-ty-Ztf"/>
-        <segue reference="qVE-cr-l1z"/>
+        <segue reference="IEQ-rj-Epw"/>
+        <segue reference="RxV-Vv-Nb3"/>
         <segue reference="sYc-NF-Yhk"/>
     </inferredMetricsTieBreakers>
 </document>

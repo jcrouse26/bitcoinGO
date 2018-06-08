@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import FacebookLogin
 import FBSDKLoginKit
+import GoogleMaps
+import GooglePlaces
 
 
 @UIApplicationMain
@@ -18,10 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        GMSServices.provideAPIKey("AIzaSyDtCcprXvhzXh0vkN4Q0twrjCAJ3VJPHbo")
+        GMSPlacesClient.provideAPIKey("AIzaSyBNVdW7p-3yafzU-J1q3I_A8log0hdswEo")
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return true
     }
@@ -33,19 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return handled
         
     }
-    
-    /*func handlePasswordlessSignIn(withURL url: URL) -> Bool {
-        let link = url.absoluteString
-        // [START is_signin_link]
-        if Auth.auth().isSignIn(withEmailLink: link) {
-            // [END is_signin_link]
-            UserDefaults.standard.set(link, forKey: "Link")
-            (window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-            window?.rootViewController?.childViewControllers[0].performSegue(withIdentifier: "passwordless", sender: nil)
-            return true
-        }
-        return false
-    }*/
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
