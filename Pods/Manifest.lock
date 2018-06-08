@@ -5,37 +5,37 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - FacebookCore (0.3.0):
+  - FacebookCore (0.3.1):
     - Bolts (~> 1.8)
-    - FBSDKCoreKit (~> 4.27)
-  - FacebookLogin (0.3.0):
+    - FBSDKCoreKit (~> 4.33)
+  - FacebookLogin (0.3.1):
     - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3)
-    - FBSDKCoreKit (~> 4.27)
-    - FBSDKLoginKit (~> 4.27)
-  - FacebookShare (0.3.0):
+    - FacebookCore (~> 0.3.1)
+    - FBSDKCoreKit (~> 4.33)
+    - FBSDKLoginKit (~> 4.33)
+  - FacebookShare (0.3.1):
     - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3)
-    - FBSDKCoreKit (~> 4.27)
-    - FBSDKShareKit (~> 4.27)
+    - FacebookCore (~> 0.3.1)
+    - FBSDKCoreKit (~> 4.33)
+    - FBSDKShareKit (~> 4.33)
   - FBSDKCoreKit (4.33.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.33.0):
     - FBSDKCoreKit
   - FBSDKShareKit (4.33.0):
     - FBSDKCoreKit (~> 4.33.0)
-  - Firebase/Auth (5.1.0):
+  - Firebase/Auth (5.2.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.0.0)
-  - Firebase/Core (5.1.0):
+    - FirebaseAuth (= 5.0.1)
+  - Firebase/Core (5.2.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.1.0):
-    - FirebaseCore (= 5.0.2)
-  - Firebase/Database (5.1.0):
+  - Firebase/CoreOnly (5.2.0):
+    - FirebaseCore (= 5.0.3)
+  - Firebase/Database (5.2.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.0.1)
-  - Firebase/DynamicLinks (5.1.0):
+  - Firebase/DynamicLinks (5.2.0):
     - Firebase/Core
     - FirebaseDynamicLinks (= 3.0.1)
   - FirebaseAnalytics (5.0.1):
@@ -43,17 +43,17 @@ PODS:
     - FirebaseInstanceID (~> 3.0)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
-  - FirebaseAuth (5.0.0):
+  - FirebaseAuth (5.0.1):
     - FirebaseCore (~> 5.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (5.0.2):
+  - FirebaseCore (5.0.3):
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseDatabase (5.0.1):
     - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
   - FirebaseDynamicLinks (3.0.1):
     - FirebaseAnalytics (~> 5.0)
-  - FirebaseInstanceID (3.0.0):
+  - FirebaseInstanceID (3.1.0):
     - FirebaseCore (~> 5.0)
   - GeoFire (3.0.0):
     - Firebase/Database (~> 5.0)
@@ -109,19 +109,19 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  FacebookCore: 3ffa190a3f1f96cec0e44d3fc221bc322c595ffa
-  FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
-  FacebookShare: 0469964297ebd75f052be2c5083389a4208e82b7
+  FacebookCore: 33078ef1d7d76b73f7e8c990dca7d3ea6db8d22f
+  FacebookLogin: 6f15bf4fefd7a8865abbfa8fcd7f3dfd87aa275f
+  FacebookShare: c9ee8e5399d961fda00ded9befccacfe04fccf93
   FBSDKCoreKit: 572b047a7e029bc44542bcf8a59414e7ff2b543e
   FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
   FBSDKShareKit: 1869cb24db2cea90666a50cb9d568deb38e2d16e
-  Firebase: e08fb0795f35707aeb1d8a715c731c45bdf6fd56
+  Firebase: 25ed0412036d7d008568d1fb4d2e9d81ea8a0a2c
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseAuth: acbeef02fe7c3a26624e309849f3fe30c84115af
-  FirebaseCore: b81044df1044c0857a0737c6324678b72d4f7f00
+  FirebaseAuth: 463b8ce33bd5d05f706dcd4615499e3212b4132b
+  FirebaseCore: a3c87242451633fff8490183898075ce77d168d2
   FirebaseDatabase: 482bad9c2abd422bb2321194fb8c937e67426a89
   FirebaseDynamicLinks: d624a7adc81a8fd70d52be5a6a47a2bc0644b923
-  FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
+  FirebaseInstanceID: 05d779cbb97bd5bd5c51a38a903fc9cfe1b2454a
   GeoFire: e3ae6f4be3f2466c3467ef6c1c203db3af935c59
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
