@@ -412,28 +412,24 @@ can opt out at any time.</string>
         <!--Map View Controller-->
         <scene sceneID="yLc-nY-TB2">
             <objects>
-                <viewController id="nZ2-a4-gIE" customClass="MapViewController" customModule="FindPins" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CkD-gM-qCN"/>
-                        <viewControllerLayoutGuide type="bottom" id="O2k-Hg-XuT"/>
-                    </layoutGuides>
+                <viewController id="nZ2-a4-gIE" customClass="MapViewController" customModule="bitcoinGO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2ug-Us-fzl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ICj-XE-ifg">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ICj-XE-ifg">
                                 <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="nZ2-a4-gIE" id="BAC-zw-Kzi"/>
                                 </connections>
                             </mapView>
-                            <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYH-Pg-YYJ">
-                                <rect key="frame" x="314" y="20" width="100" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nYH-Pg-YYJ">
+                                <rect key="frame" x="294" y="36" width="100" height="52"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Winnings:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4W5-jq-fQ6">
-                                <rect key="frame" x="329.66666666666669" y="28" width="68.333333333333314" height="21"/>
+                                <rect key="frame" x="310" y="41" width="68.333333333333314" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Gxp-7A-PSc"/>
                                 </constraints>
@@ -441,10 +437,10 @@ can opt out at any time.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rET-g1-qDx">
-                                <rect key="frame" x="254.66666666666663" y="49" width="143.33333333333337" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rET-g1-qDx">
+                                <rect key="frame" x="295" y="65" width="99" height="23"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="rET-g1-qDx" secondAttribute="height" multiplier="131:21" id="UBo-3t-Ehc"/>
+                                    <constraint firstAttribute="width" secondItem="rET-g1-qDx" secondAttribute="height" multiplier="131:21" constant="-44.476190476190482" id="UBo-3t-Ehc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="MyanmarSangamMN" family="Myanmar Sangam MN" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -453,15 +449,14 @@ can opt out at any time.</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ICj-XE-ifg" firstAttribute="top" secondItem="CkD-gM-qCN" secondAttribute="bottom" id="2gn-nk-UeK"/>
-                            <constraint firstItem="rET-g1-qDx" firstAttribute="top" secondItem="4W5-jq-fQ6" secondAttribute="bottom" id="7mc-B8-XWf"/>
-                            <constraint firstItem="rET-g1-qDx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2ug-Us-fzl" secondAttribute="leading" constant="20" symbolic="YES" id="Ajn-a9-sOx"/>
-                            <constraint firstAttribute="trailing" secondItem="rET-g1-qDx" secondAttribute="trailing" constant="16" id="TuX-C7-PXt"/>
-                            <constraint firstItem="4W5-jq-fQ6" firstAttribute="top" secondItem="CkD-gM-qCN" secondAttribute="bottom" constant="8" id="YtT-U2-BB4"/>
-                            <constraint firstItem="ICj-XE-ifg" firstAttribute="leading" secondItem="2ug-Us-fzl" secondAttribute="leading" id="aeI-td-mMa"/>
-                            <constraint firstItem="O2k-Hg-XuT" firstAttribute="top" secondItem="ICj-XE-ifg" secondAttribute="bottom" id="gzF-Db-x9G"/>
-                            <constraint firstAttribute="trailing" secondItem="ICj-XE-ifg" secondAttribute="trailing" id="hpF-Ub-rSN"/>
-                            <constraint firstAttribute="trailing" secondItem="4W5-jq-fQ6" secondAttribute="trailing" constant="16" id="rGo-Tt-pIn"/>
+                            <constraint firstItem="nYH-Pg-YYJ" firstAttribute="top" secondItem="DY8-uC-CV6" secondAttribute="top" constant="16" id="Av8-bw-YZa"/>
+                            <constraint firstItem="DY8-uC-CV6" firstAttribute="trailing" secondItem="nYH-Pg-YYJ" secondAttribute="trailing" constant="20" id="Jdi-Mk-yIQ"/>
+                            <constraint firstItem="4W5-jq-fQ6" firstAttribute="top" secondItem="nYH-Pg-YYJ" secondAttribute="top" constant="5" id="JqS-yv-VYR"/>
+                            <constraint firstItem="rET-g1-qDx" firstAttribute="top" secondItem="nYH-Pg-YYJ" secondAttribute="bottom" constant="-23" id="ZYu-he-RV9"/>
+                            <constraint firstItem="rET-g1-qDx" firstAttribute="top" secondItem="4W5-jq-fQ6" secondAttribute="bottom" constant="3" id="iUn-US-uPQ"/>
+                            <constraint firstItem="4W5-jq-fQ6" firstAttribute="centerX" secondItem="nYH-Pg-YYJ" secondAttribute="centerX" id="kwu-7T-Tcm"/>
+                            <constraint firstItem="rET-g1-qDx" firstAttribute="centerX" secondItem="4W5-jq-fQ6" secondAttribute="centerX" priority="750" id="ody-p8-6pW"/>
+                            <constraint firstItem="4W5-jq-fQ6" firstAttribute="leading" secondItem="DY8-uC-CV6" secondAttribute="leading" constant="310" id="uL8-jj-RkL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DY8-uC-CV6"/>
                     </view>
@@ -472,7 +467,7 @@ can opt out at any time.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3d2-0g-yKf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1639" y="191"/>
+            <point key="canvasLocation" x="1637.68115942029" y="190.7608695652174"/>
         </scene>
     </scenes>
     <resources>
