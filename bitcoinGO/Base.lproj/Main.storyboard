@@ -299,10 +299,10 @@ can opt out at any time.</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="bg-black-to-blue" translatesAutoresizingMaskIntoConstraints="NO" id="vpy-cU-7H5">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="bg-black-to-blue" translatesAutoresizingMaskIntoConstraints="NO" id="vpy-cU-7H5">
                                 <rect key="frame" x="0.0" y="0.0" width="414.33333333333331" height="736"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="compass" translatesAutoresizingMaskIntoConstraints="NO" id="oeN-rw-K5X">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="compass" translatesAutoresizingMaskIntoConstraints="NO" id="oeN-rw-K5X">
                                 <rect key="frame" x="-50" y="14" width="514.33333333333337" height="570"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="oeN-rw-K5X" secondAttribute="height" multiplier="257:285" id="ARo-so-17s"/>
@@ -344,7 +344,7 @@ can opt out at any time.</string>
                                     <constraint firstAttribute="width" secondItem="c1X-e1-jJD" secondAttribute="height" multiplier="62:1" constant="-37" id="LHe-Fn-1Qd"/>
                                 </constraints>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="THE HUNT BEGINS NOW" translatesAutoresizingMaskIntoConstraints="NO" id="EsK-qn-6lO">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="THE HUNT BEGINS NOW" translatesAutoresizingMaskIntoConstraints="NO" id="EsK-qn-6lO">
                                 <rect key="frame" x="53.333333333333343" y="282" width="308" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="EsK-qn-6lO" secondAttribute="height" multiplier="308:19" id="Tx3-yz-D3b"/>
@@ -370,7 +370,7 @@ can opt out at any time.</string>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="96s-Sb-Vqs" firstAttribute="leading" secondItem="gUu-L6-EEZ" secondAttribute="leading" id="3im-7O-f0L"/>
                             <constraint firstItem="6oN-Q7-Axt" firstAttribute="top" secondItem="oeN-rw-K5X" secondAttribute="top" constant="6" id="5Dl-QY-rWb"/>
@@ -483,8 +483,8 @@ can opt out at any time.</string>
         <image name="text-box" width="335" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="a9T-mH-T5Z"/>
+        <segue reference="Mlg-2R-Q7D"/>
         <segue reference="RxV-Vv-Nb3"/>
-        <segue reference="sYc-NF-Yhk"/>
+        <segue reference="EQy-P3-tHF"/>
     </inferredMetricsTieBreakers>
 </document>
