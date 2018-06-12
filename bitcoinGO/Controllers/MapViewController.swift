@@ -37,6 +37,7 @@ class MapViewController: UIViewController {
 	
 	var geoFireRef: DatabaseReference?
 	var geoFire: GeoFire?
+	var targetsRef: DatabaseReference?
 	
 	@IBOutlet weak var winningsLabel: UILabel!
 	
@@ -46,7 +47,7 @@ class MapViewController: UIViewController {
 		// IMPORTANT: Item descriptions must be unique
 		let firstTarget : ARItem?
 		if let userLocation = self.userLocation {
-			firstTarget = ARItem(itemDescription: "\(winnings.count)", location: userLocation, itemNode: nil)
+			firstTarget = ARItem(itemDescription: "Pin \(winnings.count)", location: userLocation, itemNode: nil)
 			targets.append(firstTarget!)
 			didSetUserLocation = true
 		}
@@ -74,10 +75,13 @@ class MapViewController: UIViewController {
 		// this is for database
 		ref = Database.database().reference()
 		
-		// This is for GeoFire
-		geoFireRef = Database.database().reference().child("Geolocs")
+		let userID = Auth.auth().currentUser!.uid
 		
-		geoFire = GeoFire(firebaseRef: geoFireRef!)
+		// This is for GeoFire
+		geoFireRef = Database.database().reference().child("\(userID)")
+		targetsRef = geoFireRef?.child("Locations")
+		
+		geoFire = GeoFire(firebaseRef: targetsRef!)
 	}
 
 }

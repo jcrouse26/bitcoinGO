@@ -22,7 +22,7 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
     @IBAction func didTapFacebookButton(_ sender: Any) {
         let loginManager = LoginManager()
         
-        loginManager.logIn(readPermissions: [ .publicProfile, .email, .userLocation], viewController: self) { LoginResult in
+        loginManager.logIn(readPermissions: [ .publicProfile, .email], viewController: self) { LoginResult in
             switch LoginResult {
             case .failed(let error):
                 print(error)
@@ -38,6 +38,7 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
                     }
                     // User is signed in
                     print("success, user signed in")
+					self.performSegue(withIdentifier: "pushToMapView", sender: self)
                 }
             }
         }
@@ -45,21 +46,17 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
     
     
     override func viewDidLoad() {
+		
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        if AccessToken.current != nil {
-            // User is logged in, use 'accessToken' here.
-            print("user ", AccessToken.current?.userId as Any, "is logged in")
-        }
+		
+		checkIfUserIsSignedIn()
         
     }
     
     
     
     func loginButtonDidCompleteLogin(_ loginButton: LoginButton, result: LoginResult) {
-        // some code here
-        print("loginButtonDidCompleteLogin")
         let credential = FacebookAuthProvider.credential(withAccessToken: (AccessToken.current?.authenticationToken)!)
         
         Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
@@ -70,37 +67,54 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
             // User is signed in
         }
         
-        showEmailAddress()
+        logIntoFirebaseWithFacebookToken()
         
     }
-    func showEmailAddress() {
+    func logIntoFirebaseWithFacebookToken() {
         let accessToken = AccessToken.current
-        
+		
         guard let accessTokenString = accessToken?.authenticationToken else { return }
         
         let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
         
         Auth.auth().signInAndRetrieveData(with: credentials) { (user, error) in
             if error != nil {
-                print("ya fucked up", error as Any)
+				print("Error loggin in: ", error as Any)
                 return
-            }
-            print("successfully logged in with", user as Any)
+			}
         }
-        
     }
 
     override func viewDidAppear(_ animated: Bool) {
+		print("view is appearing...")
+		
         // Segue to MapViewController if user is logged in
-        if AccessToken.current != nil {
+        if Auth.auth().currentUser != nil {
             performSegue(withIdentifier: "pushToMapView", sender: self)
-        }
+		} else {
+			print("user not logged into firebase")
+		}
     }
     
     func loginButtonDidLogOut(_ loginButton: LoginButton) {
         // some code here
         
     }
+	
+	private func checkIfUserIsSignedIn() {
+		Auth.auth().addStateDidChangeListener { (auth, user) in
+			if user != nil {
+				// user is signed in
+				print("user is signed in")
+				// go to feature controller
+				self.performSegue(withIdentifier: "pushToMapView", sender: self)
+			} else {
+				// user is not signed in
+				// go to login controller
+				print("user is not signed in")
+			}
+		}
+	}
 
 }
 
