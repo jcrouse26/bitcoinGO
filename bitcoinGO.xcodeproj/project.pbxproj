@@ -627,7 +627,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E266BE0F7E425AB5A204A559 /* Pods-bitcoinGO.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
 				CODE_SIGN_ENTITLEMENTS = bitcoinGO/bitcoinGO.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L89SXYWHQB;
@@ -647,7 +647,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D95CB743A37C735F48ADE1C /* Pods-bitcoinGO.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
 				CODE_SIGN_ENTITLEMENTS = bitcoinGO/bitcoinGO.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L89SXYWHQB;
