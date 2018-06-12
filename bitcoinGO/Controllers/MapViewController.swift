@@ -26,12 +26,12 @@ class MapViewController: UIViewController {
 	
 	@IBOutlet weak var mapView: MKMapView!
 	var winnings : [String] = []
-	var winningsCount = 0
 	let locationManager = CLLocationManager()
 	var userLocation: CLLocation?
 	var targets = [ARItem]()
 	var previousDegrees : Double = -75 // set heading for WNW
 	var didSetUserLocation = false
+	var didReceiveUserLocation = false
 	
 	// This is for database
 	var ref : DatabaseReference!
@@ -47,17 +47,17 @@ class MapViewController: UIViewController {
 	func setupLocations() {
 		// IMPORTANT: Item descriptions must be unique
 		let firstTarget : ARItem?
-		if let userLocation = self.userLocation {
-			firstTarget = ARItem(itemDescription: "Pin \(winnings.count)", location: userLocation, itemNode: nil)
+		if let userLocation = self.userLocation, didSetUserLocation == false {
+			firstTarget = ARItem(itemDescription: "Pin \(self.winnings.count + 1)", location: userLocation, itemNode: nil)
 			targets.append(firstTarget!)
 			didSetUserLocation = true
-		}
-		
-		// In this loop you iterate through all items inside the targets array and add an annotation for each target.
-		for item in targets {
-			let annotation = MapAnnotation(location: item.location.coordinate, item: item)
-			if !winnings.contains(annotation.item.itemDescription) {
-				self.mapView.addAnnotation(annotation)
+			
+			// In this loop you iterate through all items inside the targets array and add an annotation for each target.
+			for item in targets {
+				let annotation = MapAnnotation(location: item.location.coordinate, item: item)
+				if !winnings.contains(annotation.item.itemDescription) {
+					self.mapView.addAnnotation(annotation)
+				}
 			}
 		}
 	}
@@ -66,38 +66,33 @@ class MapViewController: UIViewController {
 		super.viewDidLoad()
 		
 		mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
-		setupLocations()
-		
 		
 		if CLLocationManager.authorizationStatus() == .notDetermined {
 			locationManager.requestWhenInUseAuthorization()
 		}
 		
-		// this is for database
+		// This is for Geofire/Firebase database
 		ref = Database.database().reference()
-		
 		let userID = Auth.auth().currentUser!.uid
-		
-		// This is for GeoFire
 		geoFireRef = Database.database().reference().child("\(userID)")
 		targetsRef = geoFireRef?.child("Locations")
-		
 		geoFire = GeoFire(firebaseRef: targetsRef!)
-		
+		retrieveGeofireSnapshot()
+	}
+	
+	func retrieveGeofireSnapshot() {
 		// Check in with GeoFire for updated win counts
 		targetsRef!.observe(.value) { (snapshot) in
-			print(snapshot.childrenCount)
-			/*for child in snapshot.children {
-				if let snapshot = child as? DataSnapshot {
-					print(snapshot.key)
-					print(snapshot.value as? NSDictionary)
-				}
-				//self.winnings.append()
-			}*/
-			self.winningsCount = Int(snapshot.childrenCount)
+			self.winnings = []
+			for _ in snapshot.children {
+				self.winnings.append(snapshot.key)
+			}
+			// Now that we have a view of the snapshot of the data
+			// Update text
+			self.winningsLabel.text = String(snapshot.childrenCount)
+			// Update pin
+			self.setupLocations()
 		}
-		winningsLabel.text = String(winningsCount)
-		print("view loaded")
 	}
 }
 
@@ -105,9 +100,7 @@ extension MapViewController: MKMapViewDelegate {
 	
 	func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
 		self.userLocation = userLocation.location
-		if didSetUserLocation == false {
-			setupLocations()
-		}
+		didReceiveUserLocation = true
 	}
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		guard let annotation = annotation as? MapAnnotation else { return nil }
@@ -160,8 +153,7 @@ extension MapViewController: MKMapViewDelegate {
 					// For now... just let the homies get their prize... FOR FREE!
 					
 					winnings.append(title)
-					winningsCount += 1
-					winningsLabel.text = String(winningsCount)
+					winningsLabel.text = String(winnings.count)
 					
 					
 					self.geoFire?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
@@ -181,7 +173,7 @@ extension MapViewController: MKMapViewDelegate {
 					let nextCoordinateLong = currentLong + multiplier*__sinpi((randDegrees + previousDegrees)/180)
 					
 					// Put the pieces together to do the appropriate adding/removing of pins on the map, and CHANGE COLOR
-					let newTarget = ARItem(itemDescription: "Pin \(winningsCount)", location: CLLocation(latitude: nextCoordinateLat, longitude: nextCoordinateLong), itemNode: nil)
+					let newTarget = ARItem(itemDescription: "Pin \(winnings.count + 1)", location: CLLocation(latitude: nextCoordinateLat, longitude: nextCoordinateLong), itemNode: nil)
 					let newAnnotation = MapAnnotation(location: newTarget.location.coordinate, item: newTarget)
 					self.mapView.addAnnotation(newAnnotation)
 					
