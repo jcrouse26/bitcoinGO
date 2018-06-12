@@ -26,6 +26,7 @@ class MapViewController: UIViewController {
 	
 	@IBOutlet weak var mapView: MKMapView!
 	var winnings : [String] = []
+	var winningsCount = 0
 	let locationManager = CLLocationManager()
 	var userLocation: CLLocation?
 	var targets = [ARItem]()
@@ -82,8 +83,22 @@ class MapViewController: UIViewController {
 		targetsRef = geoFireRef?.child("Locations")
 		
 		geoFire = GeoFire(firebaseRef: targetsRef!)
+		
+		// Check in with GeoFire for updated win counts
+		targetsRef!.observe(.value) { (snapshot) in
+			print(snapshot.childrenCount)
+			/*for child in snapshot.children {
+				if let snapshot = child as? DataSnapshot {
+					print(snapshot.key)
+					print(snapshot.value as? NSDictionary)
+				}
+				//self.winnings.append()
+			}*/
+			self.winningsCount = Int(snapshot.childrenCount)
+		}
+		winningsLabel.text = String(winningsCount)
+		print("view loaded")
 	}
-
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -145,7 +160,8 @@ extension MapViewController: MKMapViewDelegate {
 					// For now... just let the homies get their prize... FOR FREE!
 					
 					winnings.append(title)
-					winningsLabel.text = String(winnings.count)
+					winningsCount += 1
+					winningsLabel.text = String(winningsCount)
 					
 					
 					self.geoFire?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
@@ -165,7 +181,7 @@ extension MapViewController: MKMapViewDelegate {
 					let nextCoordinateLong = currentLong + multiplier*__sinpi((randDegrees + previousDegrees)/180)
 					
 					// Put the pieces together to do the appropriate adding/removing of pins on the map, and CHANGE COLOR
-					let newTarget = ARItem(itemDescription: "Pin \(winnings.count)", location: CLLocation(latitude: nextCoordinateLat, longitude: nextCoordinateLong), itemNode: nil)
+					let newTarget = ARItem(itemDescription: "Pin \(winningsCount)", location: CLLocation(latitude: nextCoordinateLat, longitude: nextCoordinateLong), itemNode: nil)
 					let newAnnotation = MapAnnotation(location: newTarget.location.coordinate, item: newTarget)
 					self.mapView.addAnnotation(newAnnotation)
 					

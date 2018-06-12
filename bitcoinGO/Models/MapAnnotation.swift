@@ -7,6 +7,7 @@
 //
 
 import MapKit
+import Firebase
 
 class MapAnnotation: NSObject, MKAnnotation {
 	
@@ -17,6 +18,8 @@ class MapAnnotation: NSObject, MKAnnotation {
 	// Here you store the ARItem that belongs to the annotation.
 	let item: ARItem
 	
+	//let someResult: String
+	
 	// With the init method you can populate all variables.
 	init(location: CLLocationCoordinate2D, item: ARItem) {
 		self.coordinate = location
@@ -25,5 +28,19 @@ class MapAnnotation: NSObject, MKAnnotation {
 		
 		super.init()
 	}
+	
+	/*init?(snapshot: DataSnapshot) {
+		guard
+			let value = snapshot.value as? [String: AnyObject],
+			let name = value["name"] as? String,
+			let addedByUser = value["addedByUser"] as? String,
+			let completed = value["completed"] as? Bool else {
+				return nil
+		}
+	
+		self.name = name
+		self.addedByUser = addedByUser
+		self.completed = completed
+	}*/
 }
 
