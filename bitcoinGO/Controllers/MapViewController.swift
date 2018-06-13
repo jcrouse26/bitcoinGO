@@ -122,9 +122,10 @@ class MapViewController: UIViewController {
 		mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
 		
 		if CLLocationManager.authorizationStatus() == .notDetermined {
-			locationManager.requestWhenInUseAuthorization()
+			locationManager.requestAlwaysAuthorization()
+		} else if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+			locationManager.requestAlwaysAuthorization()
 		}
-		
 		
 		// This is for Geofire/Firebase database
 		ref = Database.database().reference()
