@@ -128,7 +128,6 @@ class MapViewController: UIViewController {
 		}
 		
 		// This is for Geofire/Firebase database
-		ref = Database.database().reference()
 		let userID = Auth.auth().currentUser!.uid
 		geoFireRef = Database.database().reference().child("users")
 		usersRef = geoFireRef?.child("\(userID)")
