@@ -18,8 +18,7 @@
 		6EB68BE520B6395B00C45739 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB68BE420B6395B00C45739 /* MapViewController.swift */; };
 		8440C8EB56798EEF668BD058 /* Pods_bitcoinGOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224FC55928D856C7228B5F8C /* Pods_bitcoinGOUITests.framework */; };
 		CD62F29B3F5C5242FA425BAE /* Pods_bitcoinGOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 738D8755E8126161063A53CC /* Pods_bitcoinGOTests.framework */; };
-		E03BB38A20CB3BFC00F5DA2D /* ARItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03BB38920CB3BFC00F5DA2D /* ARItem.swift */; };
-		E03BB38C20CB3C2C00F5DA2D /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03BB38B20CB3C2C00F5DA2D /* MapAnnotation.swift */; };
+		E03BB38C20CB3C2C00F5DA2D /* CoinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03BB38B20CB3C2C00F5DA2D /* CoinAnnotation.swift */; };
 		E0B6B91C20BD499F00E1B8E5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B6B91B20BD499F00E1B8E5 /* SignUpViewController.swift */; };
 		E0DBC6CB20D03ACC00E3647F /* KeyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DBC6CA20D03ACC00E3647F /* KeyAnnotation.swift */; };
 		E0DBC6CC20D088DE00E3647F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E08E412D20CF54710089DBE0 /* Assets.xcassets */; };
@@ -66,8 +65,7 @@
 		6E68ED5520AE159500A2DD47 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6EB68BE420B6395B00C45739 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		738D8755E8126161063A53CC /* Pods_bitcoinGOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bitcoinGOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E03BB38920CB3BFC00F5DA2D /* ARItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARItem.swift; sourceTree = "<group>"; };
-		E03BB38B20CB3C2C00F5DA2D /* MapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
+		E03BB38B20CB3C2C00F5DA2D /* CoinAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinAnnotation.swift; sourceTree = "<group>"; };
 		E08E412D20CF54710089DBE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E08E412F20CF54880089DBE0 /* AlteHaasGroteskRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlteHaasGroteskRegular.ttf; sourceTree = "<group>"; };
 		E08E413020CF54880089DBE0 /* AlteHaasGroteskBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlteHaasGroteskBold.ttf; sourceTree = "<group>"; };
@@ -188,9 +186,8 @@
 		E03BB38D20CDD18100F5DA2D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E03BB38920CB3BFC00F5DA2D /* ARItem.swift */,
 				E0DBC6CA20D03ACC00E3647F /* KeyAnnotation.swift */,
-				E03BB38B20CB3C2C00F5DA2D /* MapAnnotation.swift */,
+				E03BB38B20CB3C2C00F5DA2D /* CoinAnnotation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -456,9 +453,8 @@
 			files = (
 				E0B6B91C20BD499F00E1B8E5 /* SignUpViewController.swift in Sources */,
 				6E68ED2A20AE155B00A2DD47 /* HomeViewController.swift in Sources */,
-				E03BB38C20CB3C2C00F5DA2D /* MapAnnotation.swift in Sources */,
+				E03BB38C20CB3C2C00F5DA2D /* CoinAnnotation.swift in Sources */,
 				6E68ED2820AE155B00A2DD47 /* AppDelegate.swift in Sources */,
-				E03BB38A20CB3BFC00F5DA2D /* ARItem.swift in Sources */,
 				6EB68BE520B6395B00C45739 /* MapViewController.swift in Sources */,
 				E0DBC6CB20D03ACC00E3647F /* KeyAnnotation.swift in Sources */,
 			);
