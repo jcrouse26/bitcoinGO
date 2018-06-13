@@ -21,6 +21,8 @@
 		E03BB38A20CB3BFC00F5DA2D /* ARItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03BB38920CB3BFC00F5DA2D /* ARItem.swift */; };
 		E03BB38C20CB3C2C00F5DA2D /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03BB38B20CB3C2C00F5DA2D /* MapAnnotation.swift */; };
 		E0B6B91C20BD499F00E1B8E5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B6B91B20BD499F00E1B8E5 /* SignUpViewController.swift */; };
+		E0DBC6CB20D03ACC00E3647F /* KeyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DBC6CA20D03ACC00E3647F /* KeyAnnotation.swift */; };
+		E0DBC6CC20D088DE00E3647F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E08E412D20CF54710089DBE0 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,7 @@
 		E08E413020CF54880089DBE0 /* AlteHaasGroteskBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AlteHaasGroteskBold.ttf; sourceTree = "<group>"; };
 		E08E413120CF54880089DBE0 /* UrbanJungleDEMO.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UrbanJungleDEMO.otf; sourceTree = "<group>"; };
 		E0B6B91B20BD499F00E1B8E5 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E0DBC6CA20D03ACC00E3647F /* KeyAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyAnnotation.swift; sourceTree = "<group>"; };
 		E266BE0F7E425AB5A204A559 /* Pods-bitcoinGO.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bitcoinGO.debug.xcconfig"; path = "Pods/Target Support Files/Pods-bitcoinGO/Pods-bitcoinGO.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,8 +130,8 @@
 		6E68ED2620AE155B00A2DD47 /* bitcoinGO */ = {
 			isa = PBXGroup;
 			children = (
-				E03BB38E20CDD18B00F5DA2D /* Controllers */,
 				E03BB38D20CDD18100F5DA2D /* Models */,
+				E03BB38E20CDD18B00F5DA2D /* Controllers */,
 				E08E412E20CF54880089DBE0 /* fonts */,
 				E08E412D20CF54710089DBE0 /* Assets.xcassets */,
 				6E3860FD20B7766A00B3266D /* bitcoinGO.entitlements */,
@@ -185,8 +188,9 @@
 		E03BB38D20CDD18100F5DA2D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E03BB38B20CB3C2C00F5DA2D /* MapAnnotation.swift */,
 				E03BB38920CB3BFC00F5DA2D /* ARItem.swift */,
+				E0DBC6CA20D03ACC00E3647F /* KeyAnnotation.swift */,
+				E03BB38B20CB3C2C00F5DA2D /* MapAnnotation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -329,6 +333,7 @@
 			files = (
 				6E68ED3220AE155E00A2DD47 /* LaunchScreen.storyboard in Resources */,
 				6E68ED5620AE159500A2DD47 /* GoogleService-Info.plist in Resources */,
+				E0DBC6CC20D088DE00E3647F /* Assets.xcassets in Resources */,
 				6E68ED2D20AE155B00A2DD47 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,6 +460,7 @@
 				6E68ED2820AE155B00A2DD47 /* AppDelegate.swift in Sources */,
 				E03BB38A20CB3BFC00F5DA2D /* ARItem.swift in Sources */,
 				6EB68BE520B6395B00C45739 /* MapViewController.swift in Sources */,
+				E0DBC6CB20D03ACC00E3647F /* KeyAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,7 +633,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E266BE0F7E425AB5A204A559 /* Pods-bitcoinGO.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = bitcoinGO/bitcoinGO.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L89SXYWHQB;
@@ -647,7 +653,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D95CB743A37C735F48ADE1C /* Pods-bitcoinGO.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = bitcoinGO/bitcoinGO.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L89SXYWHQB;

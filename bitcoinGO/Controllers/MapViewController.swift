@@ -35,10 +35,19 @@ class MapViewController: UIViewController {
 	
 	// This is for database
 	var ref : DatabaseReference!
+	var geoFire: GeoFire?
+	var geoFireForPins: GeoFire?
+	
 	
 	var geoFireRef: DatabaseReference?
-	var geoFire: GeoFire?
-	var targetsRef: DatabaseReference?
+	var usersRef: DatabaseReference?
+	var pinsRef: DatabaseReference?
+	var keyRef: DatabaseReference?
+	
+	
+	var startingCoordinate = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.511065)
+	let endingCoordinateX = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.387910)
+	let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
 	
 	@IBOutlet weak var winningsLabel: UILabel!
 	
@@ -62,6 +71,49 @@ class MapViewController: UIViewController {
 		}
 	}
 	
+	func setupPinsEverywhere() {
+		// .075358 == amount of degrees moved vertically / 205 == .000368 *2 == 0.000736
+		// .123155 == amount of degrees moved horizontally / 205 == .000601 *2 == 0.001202
+		
+		keyRef = Database.database().reference().child("keys")
+		geoFireForPins = GeoFire(firebaseRef: keyRef!)
+		//keyRef?.removeValue()
+		
+	
+		/*var j = 0
+		while j < 100 {
+			var i = 0
+			var annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
+			while i < 100 {
+				annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
+				//self.mapView.addAnnotation(annotation)
+				
+				//geoFireForPins?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
+				startingCoordinate.longitude += 0.001202
+				i += 1
+			}
+			startingCoordinate.longitude = -122.511065
+			startingCoordinate.latitude -= 0.000736
+			//annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
+			//self.mapView.addAnnotation(annotation)
+			j += 1
+		}*/
+		
+		
+		
+	}
+	
+	func showKeysOnMap(location: CLLocation) {
+		keyRef = Database.database().reference().child("keys")
+		geoFireForPins = GeoFire(firebaseRef: keyRef!)
+		
+		let circleQuery = geoFireForPins!.query(at: location, withRadius: 0.3)
+		_ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
+			let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
+			self.mapView.addAnnotation(anno)
+		})
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -71,18 +123,23 @@ class MapViewController: UIViewController {
 			locationManager.requestWhenInUseAuthorization()
 		}
 		
+		
 		// This is for Geofire/Firebase database
 		ref = Database.database().reference()
 		let userID = Auth.auth().currentUser!.uid
-		geoFireRef = Database.database().reference().child("\(userID)")
-		targetsRef = geoFireRef?.child("Locations")
-		geoFire = GeoFire(firebaseRef: targetsRef!)
+		geoFireRef = Database.database().reference().child("users")
+		usersRef = geoFireRef?.child("\(userID)")
+		pinsRef = usersRef?.child("Pins")
+		
+		geoFire = GeoFire(firebaseRef: pinsRef!)
 		retrieveGeofireSnapshot()
+		
+		setupPinsEverywhere()
 	}
 	
 	func retrieveGeofireSnapshot() {
 		// Check in with GeoFire for updated win counts
-		targetsRef!.observe(.value) { (snapshot) in
+		pinsRef!.observe(.value) { (snapshot) in
 			self.winnings = []
 			for _ in snapshot.children {
 				self.winnings.append(snapshot.key)
@@ -101,20 +158,49 @@ extension MapViewController: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
 		self.userLocation = userLocation.location
 		didReceiveUserLocation = true
+		if self.userLocation != nil {
+			showKeysOnMap(location: self.userLocation!)
+		}
+		
 	}
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-		guard let annotation = annotation as? MapAnnotation else { return nil }
-		if annotation.captured == false { return nil }
-		let identifier = "pin"
+		var keyView: MKAnnotationView
 		var view: MKPinAnnotationView
-		if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
-			dequeuedView.annotation = annotation
-			view = dequeuedView
-		} else {
-			view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-			view.pinTintColor = UIColor.lightGray
+		var annotationView: MKAnnotationView
+		
+		let keyIdentifier = "key"
+		let coinIdentifier = "coin"
+		
+		if annotation.isMember(of: MKUserLocation.self) {
+			annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "User")
+			annotationView.image = UIImage(named: "user")
+			let transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+			annotationView.transform = transform
+			// return annotationView for custom user image
+			return nil
+		} else if annotation.isMember(of: KeyAnnotation.self) {
+			annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: keyIdentifier)
+			annotationView.image = UIImage(named: "key")
+			let transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
+			annotationView.transform = transform
+			return annotationView
+		} else if annotation.isMember(of: MapAnnotation.self) {
+			guard let annotation = annotation as? MapAnnotation else {
+				return nil
+			}
+			if annotation.captured == false {
+				annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: coinIdentifier)
+				annotationView.image = UIImage(named: "coin")
+				let transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+				annotationView.transform = transform
+				return annotationView
+			} else {
+				annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+				annotationView.image = UIImage(named: "x")
+				return annotationView
+			}
 		}
-		return view
+		return nil
 	}
 	
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
