@@ -25,24 +25,24 @@ import FirebaseDatabase
 class MapViewController: UIViewController {
 	
 	@IBOutlet weak var mapView: MKMapView!
-	var winnings : [String] = []
+	var coinWinnings : [CoinAnnotation] = []
 	let locationManager = CLLocationManager()
 	var userLocation: CLLocation?
 	var previousDegrees : Double = -75 // set heading for WNW
 	var didSetUserLocation = false
 	var didReceiveUserLocation = false
-	var didSetInitialPins = false
+	var didSetInitialCoin = false
 	var keysPlanted : [MKAnnotation] = []
 	
 	// This is for database
 	var ref : DatabaseReference!
 	var geoFire: GeoFire?
-	var geoFireForPins: GeoFire?
+	var geoFireForKeys: GeoFire?
 	
 	
 	var geoFireRef: DatabaseReference?
 	var usersRef: DatabaseReference?
-	var pinsRef: DatabaseReference?
+	var coinsRef: DatabaseReference?
 	var keyRef: DatabaseReference?
 	
 	
@@ -54,24 +54,14 @@ class MapViewController: UIViewController {
 	
 	let belcher : CLLocation = CLLocation(latitude: 37.768360, longitude: -122.430378)
 	
-	func setupLocations() {
-		if let userLocation = self.userLocation, didSetUserLocation == false {
-			let annotation = CoinAnnotation(location: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), title: "Pin \(winnings.count + 1)")
-			didSetUserLocation = true
-			if !winnings.contains(annotation.title!) {
-				print("adding annotation to map 3")
-				self.mapView.addAnnotation(annotation)
-			}
-			
-		}
-	}
 	
-	func setupPinsEverywhere() {
+	
+	/*func setupPinsEverywhere() {
 		// .075358 == amount of degrees moved vertically / 205 == .000368 *2 == 0.000736
 		// .123155 == amount of degrees moved horizontally / 205 == .000601 *2 == 0.001202
 		
 		print("setup pins")
-		geoFireForPins = GeoFire(firebaseRef: keyRef!)
+		geoFireForKeys = GeoFire(firebaseRef: keyRef!)
 		keyRef?.removeValue()
 		
 		
@@ -82,7 +72,7 @@ class MapViewController: UIViewController {
 			var annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
 			while i < 10 {
 				annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
-				geoFireForPins?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
+				geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
 				startingCoordinate.longitude += 0.001202
 				i += 1
 			}
@@ -95,11 +85,11 @@ class MapViewController: UIViewController {
 		
 		
 		
-	}
+	}*/
 	
-	func showKeysOnMap(location: CLLocation) {
+	/*func showKeysOnMap(location: CLLocation) {
 		
-		let circleQuery = geoFireForPins!.query(at: location, withRadius: 0.05)
+		let circleQuery = geoFireForKeys!.query(at: location, withRadius: 0.05)
 		_ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
 			let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
 			self.keysPlanted.append(anno)
@@ -114,7 +104,7 @@ class MapViewController: UIViewController {
 		_ = circleQuery.observeReady {
 			//circleQuery.removeAllObservers()
 		}
-	}
+	}*/
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -129,32 +119,70 @@ class MapViewController: UIViewController {
 		
 		// This is for Geofire/Firebase database
 		let userID = Auth.auth().currentUser!.uid
+		
 		geoFireRef = Database.database().reference().child("users")
 		usersRef = geoFireRef?.child("\(userID)")
-		pinsRef = usersRef?.child("Pins")
-		keyRef = Database.database().reference().child("keys")
+		coinsRef = usersRef?.child("coins")
+		keyRef = usersRef?.child("keys")
 		
-		geoFireForPins = GeoFire(firebaseRef: keyRef!)
-		geoFire = GeoFire(firebaseRef: pinsRef!)
+		geoFireForKeys = GeoFire(firebaseRef: keyRef!)
+		geoFire = GeoFire(firebaseRef: coinsRef!)
 		retrieveGeofireSnapshot()
 		
-		setupPinsEverywhere()
+		//setupPinsEverywhere()
+		setInitialCoin()
 	}
 	
 	func retrieveGeofireSnapshot() {
-		// Check in with GeoFire for updated win counts
-		pinsRef!.observe(.value) { (snapshot) in
-			self.winnings = []
-			for _ in snapshot.children {
-				self.winnings.append(snapshot.key)
+		// Check in with GeoFire for updated coins won
+		
+		coinsRef!.observe(.value) { (snapshot) in
+			
+			// Stop geofire retrieval for coins won if new coin has already been set
+			if self.didSetInitialCoin == true {
+				return
 			}
-			// Now that we have a view of the snapshot of the data
-			// Update text
-			self.winningsLabel.text = String(snapshot.childrenCount)
-			// Update pin
-			self.setupLocations()
+			
+			// Set local winnings to blank -- NOT SURE THIS IS NECESSARY
+			self.coinWinnings = []
+			
+			// This loop will iterate through each child in the dataset and downcast it as a DataSnapshot
+			let enumerator = snapshot.children
+			while let rest = enumerator.nextObject() as? DataSnapshot {
+				
+				self.geoFire?.getLocationForKey(rest.key, withCallback: { (location, error) in
+					if let location = location {
+						// LocationForKey successful, so create an instance of CoinAnnotation to populate coinWinnings, update label appropriately
+						let anno = CoinAnnotation(location: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), title: rest.key)
+						self.coinWinnings.append(anno)
+						self.winningsLabel.text = String(self.coinWinnings.count)
+						
+						// Check to see if we're on the final child. If so, set initial coin, set bool.
+						// WARNING: IF THIS IS COMPLETED BEFORE USERLOCATION, THIS WILL FAIL
+						if snapshot.childrenCount == self.coinWinnings.count {
+							self.setInitialCoin()
+							self.didSetInitialCoin = true
+						}
+						
+					} else if let error = error {
+						print("big time error bro")
+						print(error.localizedDescription)
+					}
+				})
+			}
+			// I put this here in case all of the above is nil
 		}
 	}
+	
+	// This function is only called from the retreive GeoFireSnapshot function
+	func setInitialCoin() {
+		
+		if let userLocation = self.userLocation {
+			let annotation = CoinAnnotation(location: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), title: "Pin \(self.coinWinnings.count + 1)")
+			self.mapView.addAnnotation(annotation)
+		}
+	}
+	
 }
 
 
@@ -165,8 +193,8 @@ extension MapViewController: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
 		self.userLocation = userLocation.location
 		didReceiveUserLocation = true
-		if self.userLocation != nil && didSetInitialPins == false {
-			showKeysOnMap(location: self.userLocation!)
+		if self.userLocation != nil && didSetInitialCoin == false {
+			//showKeysOnMap(location: self.userLocation!)
 		}
 		
 	}
@@ -229,7 +257,7 @@ extension MapViewController: MKMapViewDelegate {
 		if let userCoordinate = userLocation {
 			
 			// Make sure the tapped item is within range of the users location.
-			if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= 4500 {
+			if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= 45 {
 				// Add to array of winnings
 				
 				if let title = view.annotation!.title! {
@@ -237,19 +265,19 @@ extension MapViewController: MKMapViewDelegate {
 					// For now... just let the homies get their prize... FOR FREE!
 					print(title)
 					
-					winnings.append(title)
-					winningsLabel.text = String(winnings.count)
 					
 					
-					self.geoFire?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
 					
-					self.geoFireForPins?.removeKey(title, withCompletionBlock: { (error) in
+					
+					
+					
+					/*self.geoFireForKeys?.removeKey(title, withCompletionBlock: { (error) in
 						if let error = error {
 							print(error.localizedDescription)
 						} else {
 							print("this has been completed")
 						}
-					})
+					})*/
 					
 					// Add vibration so John's ladies can truly enjoy BitcoinGO ;)
 					AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
@@ -267,9 +295,8 @@ extension MapViewController: MKMapViewDelegate {
 					
 					// Put the pieces together to do the appropriate adding/removing of pins on the map, and change color
 					if !title.contains("key") {
-						let newAnnotation = CoinAnnotation(location: nextCoordinate, title: "Pin \(winnings.count + 1)")
+						let newAnnotation = CoinAnnotation(location: nextCoordinate, title: "Pin \(coinWinnings.count + 1)")
 						self.mapView.addAnnotation(newAnnotation)
-						
 						
 					} else if title.contains("key"){
 						self.mapView.removeAnnotation(view.annotation!)
@@ -281,6 +308,9 @@ extension MapViewController: MKMapViewDelegate {
 					guard let annotation = view.annotation as? CoinAnnotation else { return }
 					annotation.captured = true
 					
+					coinWinnings.append(annotation)
+					winningsLabel.text = String(coinWinnings.count)
+					self.geoFire?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
 					// Add new annotation with captured == true to map, which sets to X
 					self.mapView.removeAnnotation(view.annotation!)
 					self.mapView.addAnnotation(annotation)
