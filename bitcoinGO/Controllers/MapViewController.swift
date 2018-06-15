@@ -32,7 +32,7 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var userLocation: CLLocation?
     var previousDegrees : Double = -75 // set heading for WNW
-    var didSetUserLocation = false
+    var didSetKeysOnMap = false
     var didSetInitialCoin = false
     //var didQueryKeys = false
     
@@ -48,10 +48,12 @@ class MapViewController: UIViewController {
     var keyRef: DatabaseReference?
     var userRef: DatabaseReference?
     
-    
-    var startingCoordinate = CLLocationCoordinate2D(latitude: 37.770081, longitude: -122.432517)
-    let endingCoordinateX = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.387910)
-    let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
+    // Set the intial coordinate for creating keys
+    var startingCoordinate = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.511065)
+	
+	// keeping below for reference
+	//let endingCoordinateX = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.387910)
+	//let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
     
     @IBOutlet weak var winningsLabel: UILabel!
     
@@ -66,6 +68,7 @@ class MapViewController: UIViewController {
 		// setting this again locally, but commenting out
         //keyRef = usersRef?.child("keys")
         //self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
+		//keyRef?.removeValue()
         
         // This code is needed if pins ever get erased
         var j = 0
@@ -85,11 +88,12 @@ class MapViewController: UIViewController {
     }
     
     func showKeysOnMap(forLocation location: CLLocation) {
-        
+        print("running show keys on map")
         let circleQuery = geoFireForKeys!.query(at: location, withRadius: 0.1)
         _ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
             if self.mapView.annotations.contains(where: { (mka) -> Bool in
+				print(mka.title!, anno.title!, "mka/anno.title")
                 if mka.title == anno.title {
                     return true
                 } else {
@@ -130,9 +134,11 @@ class MapViewController: UIViewController {
         let userID = Auth.auth().currentUser!.uid
         
         geoFireRef = Database.database().reference().child("users")
-        usersRef = geoFireRef?.child("\(userID)")
+		
+		usersRef = geoFireRef?.child("\(userID)")
         coinsRef = usersRef?.child("coins")
-        keyRef = usersRef?.child("keys")
+        //keyRef = usersRef?.child("keys")
+		keyRef = Database.database().reference().child("keys")
         userRef = usersRef?.child("user")
         
         geoFireForKeys = GeoFire(firebaseRef: keyRef!)
@@ -146,14 +152,14 @@ class MapViewController: UIViewController {
     
     func retrieveGeofireSnapshot() {
         // Check in with GeoFire for updated coins won
-        
+        print("retrieving GF snapshot")
         coinsRef!.observe(.value) { (snapshot) in
-            
+            print("observing")
             // Stop geofire retrieval for coins won if new coin has already been set
             if self.didSetInitialCoin == true {
+				print("did set initial coin == true")
                 return
             }
-            
             if snapshot.childrenCount == 0 {
                 self.didSetInitialCoin = self.setInitialCoin()
             }
@@ -174,6 +180,7 @@ class MapViewController: UIViewController {
                         self.winningsLabel.text = String(self.coinWinnings.count)
                         
                         // Check to see if we're on the final child. If so, set initial coin, set bool.
+						
                         // WARNING: IF THIS IS COMPLETED BEFORE USERLOCATION, THIS WILL FAIL
                         if snapshot.childrenCount == self.coinWinnings.count {
                             self.didSetInitialCoin = self.setInitialCoin()
@@ -209,7 +216,11 @@ extension MapViewController: MKMapViewDelegate {
 		if let loc = userLocation.location {
 			self.userLocation = loc
 			self.geoFireForUser?.setLocation(loc, forKey: "location")
-			showKeysOnMap(forLocation: loc)
+			if didSetKeysOnMap == false {
+				showKeysOnMap(forLocation: loc)
+				didSetKeysOnMap = true
+			}
+			
 		}
 	
         // This fails sometimes. Still unclear how.
@@ -276,7 +287,7 @@ extension MapViewController: MKMapViewDelegate {
         if let userCoordinate = userLocation {
             
             // Make sure the tapped item is within range of the users location.
-            if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= 45000 {
+            if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= 50 {
                 // Add to array of winnings
                 
                 if let title = view.annotation!.title! {
