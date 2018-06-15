@@ -12,7 +12,7 @@
 / 8 /
 */
 
-// WARNING: If setInitialCoin fails (ie. userLocation is not set), there's currently no method to set it once user location is found
+// WARNING: If setInitialCoin returns false because userLocation returned nil, it will not be called once user location is found
 // WARNING: There is a massive set of keys in firebase. 10,000. The way it disappears from user's map is by setting the retrieved key to 0,0 on a map, since removing it wasn't working
 
 
@@ -27,7 +27,7 @@ import FirebaseDatabase
 class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
-    var coinWinnings : [CoinAnnotation] = []
+	var coinWinnings : Int = 0
     var keyWinnings : [KeyAnnotation] = []
     
     let locationManager = CLLocationManager()
@@ -50,11 +50,12 @@ class MapViewController: UIViewController {
     var userRef: DatabaseReference?
     
     // Set the intial coordinate for creating keys
-    var startingCoordinate = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.511065)
+	var startingCoordinate = CLLocationCoordinate2D(latitude: 37.770655, longitude: -122.434400)
 	
 	// keeping below for reference
 	//let endingCoordinateX = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.387910)
 	//let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
+	// var startingCoordinate = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.511065) // big map 100x100
     
     @IBOutlet weak var winningsLabel: UILabel!
     
@@ -69,28 +70,29 @@ class MapViewController: UIViewController {
 		// setting this again locally, but commenting out
         //keyRef = usersRef?.child("keys")
         //self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
-		//keyRef?.removeValue()
+		keyRef?.removeValue()
         
         // This code is needed if pins ever get erased
         var j = 0
-        while j < 100 {
+        while j < 10 {
             var i = 0
             var annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
-            while i < 100 {
+            while i < 10 {
                 annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
                 self.geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
                 startingCoordinate.longitude += 0.001202
                 i += 1
             }
-            startingCoordinate.longitude = -122.432517
+            startingCoordinate.longitude = -122.434400
             startingCoordinate.latitude -= 0.000736
             j += 1
         }
     }
     
     func showKeysOnMap(forLocation location: CLLocation) {
-        print("running show keys on map")
-        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.1)
+		print(location, " == location")
+        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.09)
+		print(circleQuery.center, "== circleQuery.center")
         _ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
 			print("observing...")
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
@@ -116,6 +118,7 @@ class MapViewController: UIViewController {
         })
     
         _ = circleQuery.observeReady {
+			print("loaded everything")
             //circleQuery.removeAllObservers()
         }
     }
@@ -147,63 +150,27 @@ class MapViewController: UIViewController {
         geoFireForKeys = GeoFire(firebaseRef: keyRef!)
         geoFireForCoins = GeoFire(firebaseRef: coinsRef!)
         geoFireForUser = GeoFire(firebaseRef: userRef!)
+		
         retrieveGeofireSnapshot()
-    
-        _ = setInitialCoin()
         createKeysInFirebase()
     }
     
     func retrieveGeofireSnapshot() {
-        // Check in with GeoFire for updated coins won
-        print("retrieving GF snapshot")
         coinsRef!.observe(.value) { (snapshot) in
-            print("observing")
-            // Stop geofire retrieval for coins won if new coin has already been set
-            if self.didSetInitialCoin == true {
-				print("did set initial coin == true")
-                return
-            }
-            if snapshot.childrenCount == 0 {
-                self.didSetInitialCoin = self.setInitialCoin()
-            }
-            
-            // Set local winnings to blank -- NOT SURE THIS IS NECESSARY
-            self.coinWinnings = []
-            
-            // This loop will iterate through each child in the dataset and downcast it as a DataSnapshot
-            let enumerator = snapshot.children
-            while let rest = enumerator.nextObject() as? DataSnapshot {
-            
-                self.geoFireForCoins?.getLocationForKey(rest.key, withCallback: { (location, error) in
-                    if let location = location {
-                        // LocationForKey successful, so create an instance of CoinAnnotation to populate coinWinnings, update label appropriately
-                        let anno = CoinAnnotation(location: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), title: rest.key)
-                        anno.captured = true
-                        self.coinWinnings.append(anno)
-                        self.winningsLabel.text = String(self.coinWinnings.count)
-                        
-                        // Check to see if we're on the final child. If so, set initial coin, set bool.
-						
-                        // WARNING: IF THIS IS COMPLETED BEFORE USERLOCATION, THIS WILL FAIL
-                        if snapshot.childrenCount == self.coinWinnings.count {
-                            self.didSetInitialCoin = self.setInitialCoin()
-                        }
-                        
-                    } else if let error = error {
-                        print("big time error bro")
-                        print(error.localizedDescription)
-                    }
-                })
-            }
+			self.coinWinnings = Int(snapshot.childrenCount)
+			self.winningsLabel.text = String(self.coinWinnings)
+			self.didSetInitialCoin = self.setInitialCoin(with: self.coinWinnings)
         }
     }
     
     // This function is only called from the retreive GeoFireSnapshot function
-    func setInitialCoin() -> Bool {
+	func setInitialCoin(with winnings: Int) -> Bool {
+		if didSetInitialCoin == true {
+			return true
+		}
         if let userLocation = self.userLocation {
-            let annotation = CoinAnnotation(location: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), title: "Pin \(self.coinWinnings.count + 1)")
+            let annotation = CoinAnnotation(location: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), title: "Pin \(winnings + 1)")
             self.mapView.addAnnotation(annotation)
-            self.didSetInitialCoin = true
             return true
         } else { return false }
     }
@@ -222,6 +189,9 @@ extension MapViewController: MKMapViewDelegate {
 			if didSetKeysOnMap == false {
 				showKeysOnMap(forLocation: loc)
 				didSetKeysOnMap = true
+			} else {
+				showKeysOnMap(forLocation: loc)
+				print("running showKeysOnMap forLocation:", loc)
 			}
 			
 		}
@@ -326,12 +296,12 @@ extension MapViewController: MKMapViewDelegate {
                     previousDegrees = randDegrees + previousDegrees
                     
                     annotation.captured = true
-                    coinWinnings.append(annotation)
-                    winningsLabel.text = String(coinWinnings.count)
+                    coinWinnings += 1
+                    winningsLabel.text = String(coinWinnings)
                     self.geoFireForCoins?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
                     
                     // Put the pieces together to do the appropriate adding/removing of pins on the map, and change color
-                    let newAnnotation = CoinAnnotation(location: nextCoordinate, title: "Pin \(coinWinnings.count + 1)")
+                    let newAnnotation = CoinAnnotation(location: nextCoordinate, title: "Pin \(coinWinnings + 1)")
                     self.mapView.addAnnotation(newAnnotation)
                     
                     // Add new annotation with captured == true to map, which sets to X
