@@ -62,15 +62,17 @@ class MapViewController: UIViewController {
     func createKeysInFirebase() {
         // .075358 == amount of degrees moved vertically / 205 == .000368 *2 == 0.000736
         // .123155 == amount of degrees moved horizontally / 205 == .000601 *2 == 0.001202
-        
-        geoFireForKeys = GeoFire(firebaseRef: keyRef!)
+		
+		// setting this again locally, but commenting out
+        //keyRef = usersRef?.child("keys")
+        //self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
         
         // This code is needed if pins ever get erased
         var j = 0
-        while j < 10 {
+        while j < 100 {
             var i = 0
             var annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
-            while i < 10 {
+            while i < 100 {
                 annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
                 self.geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
                 startingCoordinate.longitude += 0.001202
@@ -204,10 +206,15 @@ class MapViewController: UIViewController {
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        self.userLocation = userLocation.location
-        self.geoFireForUser?.setLocation(CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), forKey: "location")
-        // FUCK YOU. Sometimes this fails somehow. I do not understand. It has to work.
-        showKeysOnMap(forLocation: self.userLocation!)
+		if let loc = userLocation.location {
+			self.userLocation = loc
+			self.geoFireForUser?.setLocation(loc, forKey: "location")
+			showKeysOnMap(forLocation: loc)
+		}
+	
+        // This fails sometimes. Still unclear how.
+		// I think I need some other way of firing the dropInitialCoin from here if it happens to load all data before
+		
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
