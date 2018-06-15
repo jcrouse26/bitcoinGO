@@ -7,21 +7,19 @@
 //
 
 import MapKit
+import Firebase
 
-class MapAnnotation: NSObject, MKAnnotation {
+class CoinAnnotation: NSObject, MKAnnotation {
 	
 	// The protocol requires a variable coordinate and an optional title.
 	let coordinate: CLLocationCoordinate2D
 	let title: String?
 	var captured = false
-	// Here you store the ARItem that belongs to the annotation.
-	let item: ARItem
 	
 	// With the init method you can populate all variables.
-	init(location: CLLocationCoordinate2D, item: ARItem) {
+	init(location: CLLocationCoordinate2D, title: String) {
 		self.coordinate = location
-		self.item = item
-		self.title = item.itemDescription
+		self.title = title
 		
 		super.init()
 	}
