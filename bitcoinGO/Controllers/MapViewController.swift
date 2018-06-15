@@ -13,6 +13,7 @@
 */
 
 // WARNING: If setInitialCoin fails (ie. userLocation is not set), there's currently no method to set it once user location is found
+// WARNING: There is a massive set of keys in firebase. 10,000. The way it disappears from user's map is by setting the retrieved key to 0,0 on a map, since removing it wasn't working
 
 
 import UIKit
@@ -89,9 +90,11 @@ class MapViewController: UIViewController {
     
     func showKeysOnMap(forLocation location: CLLocation) {
         print("running show keys on map")
-        let circleQuery = geoFireForKeys!.query(at: location, withRadius: 0.1)
+        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.1)
         _ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
+			print("observing...")
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
+			print(anno.title!, "anno.title!")
             if self.mapView.annotations.contains(where: { (mka) -> Bool in
 				print(mka.title!, anno.title!, "mka/anno.title")
                 if mka.title == anno.title {
