@@ -13,8 +13,7 @@
 */
 
 // WARNING: If setInitialCoin returns false because userLocation returned nil, it will not be called once user location is found
-// WARNING: There is a massive set of keys in firebase. 10,000. The way it disappears from user's map is by setting the retrieved key to 0,0 on a map, since removing it wasn't working
-
+// Should use NSUserDefaults for onboarding alerts
 
 import UIKit
 import MapKit
@@ -26,15 +25,23 @@ import FirebaseDatabase
 
 class MapViewController: UIViewController {
     
-    @IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var keyWinningsLabel: UILabel!
+	@IBOutlet weak var winningsLabel: UILabel!
+	@IBOutlet weak var mapView: MKMapView!
+	
 	var coinWinnings : Int = 0
-    var keyWinnings : [KeyAnnotation] = []
+	var keyWinnings : Int = 0
     
     let locationManager = CLLocationManager()
     var userLocation: CLLocation?
     var previousDegrees : Double = -75 // set heading for WNW
-    var didSetKeysOnMap = false
+	
+	var didSetKeysOnMap = false
     var didSetInitialCoin = false
+	var didCreateKeysInFirebase = false
+	var didShowFirstKeyAlert = false
+	var didShowSecondKeyAlert = false
+	
     //var didQueryKeys = false
     
     // This is for database
@@ -57,18 +64,21 @@ class MapViewController: UIViewController {
 	//let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
 	// var startingCoordinate = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.511065) // big map 100x100
     
-    @IBOutlet weak var winningsLabel: UILabel!
+	
     
     let belcher : CLLocation = CLLocation(latitude: 37.768360, longitude: -122.430378)
     
     
     
-    func createKeysInFirebase() {
-        // .075358 == amount of degrees moved vertically / 205 == .000368 *2 == 0.000736
-        // .123155 == amount of degrees moved horizontally / 205 == .000601 *2 == 0.001202
+	func createKeysInFirebase(withStartingLocation location: CLLocation) -> Bool {
+        let degreesVert = 0.001000 // == number of degrees moved vertically // Latitude
+        let degreesHorz = 0.001500 // == number of degrees moved horizontally // Longitude
 		
-		// setting this again locally, but commenting out
-        //keyRef = usersRef?.child("keys")
+		// take the user location, plant keys starting with user location minus the long by the above *5
+		// and plus the lat
+		startingCoordinate.latitude = location.coordinate.latitude + (5 * degreesVert) + (degreesVert/2)
+		startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesHorz)
+		
         //self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
 		keyRef?.removeValue()
         
@@ -80,37 +90,30 @@ class MapViewController: UIViewController {
             while i < 10 {
                 annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
                 self.geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
-                startingCoordinate.longitude += 0.001202
+                startingCoordinate.longitude += degreesHorz
                 i += 1
             }
-            startingCoordinate.longitude = -122.434400
-            startingCoordinate.latitude -= 0.000736
+            startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesHorz)
+            startingCoordinate.latitude -= degreesVert
             j += 1
         }
+		
+		return true
     }
     
     func showKeysOnMap(forLocation location: CLLocation) {
-		print(location, " == location")
-        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.09)
-		print(circleQuery.center, "== circleQuery.center")
+        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.15)
         _ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
-			print("observing...")
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
-			print(anno.title!, "anno.title!")
             if self.mapView.annotations.contains(where: { (mka) -> Bool in
-				print(mka.title!, anno.title!, "mka/anno.title")
-                if mka.title == anno.title {
-                    return true
-                } else {
-                    return false
-                }
-            }) == true {
-                
-            } else {
+                if mka.title == anno.title {return true } else { return false }
+            }) == true { // it's already on the map
+			} else {
+				// add to map
                 self.mapView.addAnnotation(anno)
+				AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+				
             }
-            //self.mapView.addAnnotation(anno)
-            //self.didSetInitialCoin = true
         })
         _ = circleQuery.observe(GFEventType.keyExited, with: { (key, location) in
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
@@ -118,7 +121,6 @@ class MapViewController: UIViewController {
         })
     
         _ = circleQuery.observeReady {
-			print("loaded everything")
             //circleQuery.removeAllObservers()
         }
     }
@@ -152,7 +154,6 @@ class MapViewController: UIViewController {
         geoFireForUser = GeoFire(firebaseRef: userRef!)
 		
         retrieveGeofireSnapshot()
-        createKeysInFirebase()
     }
     
     func retrieveGeofireSnapshot() {
@@ -162,23 +163,20 @@ class MapViewController: UIViewController {
 			self.didSetInitialCoin = self.setInitialCoin(with: self.coinWinnings)
         }
     }
-    
-    // This function is only called from the retreive GeoFireSnapshot function
+	
 	func setInitialCoin(with winnings: Int) -> Bool {
 		if didSetInitialCoin == true {
 			return true
 		}
+		// This is where it fails upon first load, I presume
         if let userLocation = self.userLocation {
-            let annotation = CoinAnnotation(location: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude), title: "Pin \(winnings + 1)")
+            let annotation = CoinAnnotation(location: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude + 0.000500), title: "Pin \(winnings + 1)")
             self.mapView.addAnnotation(annotation)
             return true
         } else { return false }
     }
     
 }
-
-
-
 
 extension MapViewController: MKMapViewDelegate {
     
@@ -191,14 +189,11 @@ extension MapViewController: MKMapViewDelegate {
 				didSetKeysOnMap = true
 			} else {
 				showKeysOnMap(forLocation: loc)
-				print("running showKeysOnMap forLocation:", loc)
 			}
-			
+			if didCreateKeysInFirebase == false {
+				self.didCreateKeysInFirebase = createKeysInFirebase(withStartingLocation: loc)
+			}
 		}
-	
-        // This fails sometimes. Still unclear how.
-		// I think I need some other way of firing the dropInitialCoin from here if it happens to load all data before
-		
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -209,15 +204,16 @@ extension MapViewController: MKMapViewDelegate {
         
         if annotation.isMember(of: MKUserLocation.self) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "User")
-            annotationView.image = UIImage(named: "user")
-            let transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            annotationView.transform = transform
-            // return annotationView for custom user image
+            //annotationView.image = UIImage(named: "user")
+            //let transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            //annotationView.transform = transform
+			//annotationView.displayPriority = MKFeatureDisplayPriority(700)
+            // return nil for stock image
             return nil
         } else if annotation.isMember(of: KeyAnnotation.self) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: keyIdentifier)
             annotationView.image = UIImage(named: "key")
-            let transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
+            let transform = CGAffineTransform(scaleX: 0.06, y: 0.06)
             annotationView.transform = transform
             return annotationView
         } else if annotation.isMember(of: CoinAnnotation.self) {
@@ -227,7 +223,7 @@ extension MapViewController: MKMapViewDelegate {
             if annotation.captured == false {
                 annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: coinIdentifier)
                 annotationView.image = UIImage(named: "coin")
-                let transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+                let transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                 annotationView.transform = transform
                 return annotationView
             } else {
@@ -272,11 +268,24 @@ extension MapViewController: MKMapViewDelegate {
                     
                     if view.annotation! is KeyAnnotation {
                         let newAnno = KeyAnnotation(coordinate: view.annotation!.coordinate, title: view.annotation!.title!)
-                        keyWinnings.append(newAnno)
+                        keyWinnings += 1
+						self.keyWinningsLabel.text = String(keyWinnings)
                         self.mapView.removeAnnotation(view.annotation!)
                         self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
                         self.geoFireForKeys?.setLocation(CLLocation(latitude: 0, longitude: 0), forKey: newAnno.title!)
                         self.geoFireForKeys?.removeKey(newAnno.title!)
+						
+						if keyWinnings == 1 && didShowFirstKeyAlert == false {
+							let alert = UIAlertController(title: "Congrats!", message: "You grabbed your first key. Find one more to unlock your first Bitcoin!", preferredStyle: UIAlertControllerStyle.alert)
+							alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in }))
+							self.present(alert, animated: true)
+							didShowFirstKeyAlert = true
+						} else if keyWinnings == 2 && didShowSecondKeyAlert == false {
+							let alert = UIAlertController(title: "Congrats!", message: "You grabbed your second key. You're ready to collect your first Bitcoin!", preferredStyle: UIAlertControllerStyle.alert)
+							alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in }))
+							self.present(alert, animated: true)
+							didShowSecondKeyAlert = true
+						}
                     }
                     
                     guard let annotation = view.annotation as? CoinAnnotation else {
@@ -284,30 +293,37 @@ extension MapViewController: MKMapViewDelegate {
                         return
                     }
                     // Everything here will only run if the above succeeds
-                    
-                    // Do some math to come up with next point, based on current point and previous path
-                    let currentLat = coordinate.latitude
-                    let currentLong = coordinate.longitude
-                    let multiplier = 0.00135 // this is approximately 150 meters
-                    let randDegrees = Double(arc4random_uniform(180)) - 90
-                    let nextCoordinateLat = currentLat + multiplier*__cospi((randDegrees + previousDegrees)/180)
-                    let nextCoordinateLong = currentLong + multiplier*__sinpi((randDegrees + previousDegrees)/180)
-                    let nextCoordinate = CLLocationCoordinate2DMake(nextCoordinateLat, nextCoordinateLong)
-                    previousDegrees = randDegrees + previousDegrees
-                    
-                    annotation.captured = true
-                    coinWinnings += 1
-                    winningsLabel.text = String(coinWinnings)
-                    self.geoFireForCoins?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
-                    
-                    // Put the pieces together to do the appropriate adding/removing of pins on the map, and change color
-                    let newAnnotation = CoinAnnotation(location: nextCoordinate, title: "Pin \(coinWinnings + 1)")
-                    self.mapView.addAnnotation(newAnnotation)
-                    
-                    // Add new annotation with captured == true to map, which sets to X
-                    self.mapView.removeAnnotation(view.annotation!)
-                    self.mapView.addAnnotation(annotation)
-                    
+					if keyWinnings >= 2 {
+						// Do some math to come up with next point, based on current point and previous path
+						let currentLat = coordinate.latitude
+						let currentLong = coordinate.longitude
+						let multiplier = 0.00135 // this is approximately 150 meters
+						let randDegrees = Double(arc4random_uniform(180)) - 90
+						let nextCoordinateLat = currentLat + multiplier*__cospi((randDegrees + previousDegrees)/180)
+						let nextCoordinateLong = currentLong + multiplier*__sinpi((randDegrees + previousDegrees)/180)
+						let nextCoordinate = CLLocationCoordinate2DMake(nextCoordinateLat, nextCoordinateLong)
+						previousDegrees = randDegrees + previousDegrees
+						
+						annotation.captured = true
+						coinWinnings += 1
+						winningsLabel.text = String(coinWinnings)
+						self.geoFireForCoins?.setLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude), forKey: "\(title)")
+						
+						// Put the pieces together to do the appropriate adding/removing of pins on the map, and change color
+						let newAnnotation = CoinAnnotation(location: nextCoordinate, title: "Pin \(coinWinnings + 1)")
+						self.mapView.addAnnotation(newAnnotation)
+						
+						// Add new annotation with captured == true to map, which sets to X
+						self.mapView.removeAnnotation(view.annotation!)
+						self.mapView.addAnnotation(annotation)
+						keyWinnings -= 2
+						keyWinningsLabel.text = String(keyWinnings)
+					} else {
+						let alert = UIAlertController(title: "Sorry", message: "You are out of keys needed to unlock this Bitcoin. Please collect more keys and try again.", preferredStyle: UIAlertControllerStyle.alert)
+						
+						alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in }))
+						self.present(alert, animated: true)
+					}
                 }
                 
             } else if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) > 40 {

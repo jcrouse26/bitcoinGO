@@ -320,7 +320,7 @@ can opt out at any time.</string>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96s-Sb-Vqs">
                                 <rect key="frame" x="40.333333333333343" y="596.33333333333337" width="332.66666666666663" height="40"/>
                                 <fontDescription key="fontDescription" name="AlteHaasGrotesk_Bold" family="Alte Haas Grotesk" pointSize="16"/>
-                                <state key="normal" title="Sign up" backgroundImage="orange-btn">
+                                <state key="normal" title="Sign up with SMS" backgroundImage="orange-btn">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -334,9 +334,6 @@ can opt out at any time.</string>
                                 <state key="normal" title="Login" backgroundImage="grey-btn">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <segue destination="G9S-GR-30j" kind="show" id="RxV-Vv-Nb3"/>
-                                </connections>
                             </button>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="Line" translatesAutoresizingMaskIntoConstraints="NO" id="c1X-e1-jJD">
                                 <rect key="frame" x="41" y="644.33333333333337" width="332" height="6"/>
@@ -446,6 +443,20 @@ can opt out at any time.</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Keys:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNc-L1-9cD">
+                                <rect key="frame" x="20" y="41" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="diB-YC-LD5">
+                                <rect key="frame" x="20" y="65" width="48" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -461,6 +472,7 @@ can opt out at any time.</string>
                         <viewLayoutGuide key="safeArea" id="DY8-uC-CV6"/>
                     </view>
                     <connections>
+                        <outlet property="keyWinningsLabel" destination="diB-YC-LD5" id="vyI-8R-B4P"/>
                         <outlet property="mapView" destination="ICj-XE-ifg" id="FHk-LZ-eLF"/>
                         <outlet property="winningsLabel" destination="rET-g1-qDx" id="Rz9-zC-WOT"/>
                     </connections>
@@ -484,7 +496,6 @@ can opt out at any time.</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Mlg-2R-Q7D"/>
-        <segue reference="RxV-Vv-Nb3"/>
         <segue reference="EQy-P3-tHF"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -22,13 +22,14 @@ class SignUpViewController: UIViewController {
     @IBAction func smsVerification(_ sender: Any) {
         self.disableUI(true);
         
-        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.text!, uiDelegate: nil) { (verificationID, error) in
+        PhoneAuthProvider.provider().verifyPhoneNumber("+1\(phoneNumber.text!)", uiDelegate: nil) { (verificationID, error) in
             if let error = error {
                 self.status.text = (error.localizedDescription)
                 print(error.localizedDescription)
                 return
             }
             // save verification ID
+			print("1+\(self.phoneNumber.text!)", "== phone number input")
             UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
             self.phoneNumber.isHidden = true
             self.nextButton.isHidden = true
