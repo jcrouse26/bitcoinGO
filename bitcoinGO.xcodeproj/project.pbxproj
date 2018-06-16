@@ -134,10 +134,10 @@
 				E08E412D20CF54710089DBE0 /* Assets.xcassets */,
 				6E3860FD20B7766A00B3266D /* bitcoinGO.entitlements */,
 				6E68ED2720AE155B00A2DD47 /* AppDelegate.swift */,
-				6E68ED3020AE155E00A2DD47 /* LaunchScreen.storyboard */,
-				6E68ED2B20AE155B00A2DD47 /* Main.storyboard */,
 				6E68ED3320AE155E00A2DD47 /* Info.plist */,
 				6E68ED5520AE159500A2DD47 /* GoogleService-Info.plist */,
+				6E68ED3020AE155E00A2DD47 /* LaunchScreen.storyboard */,
+				6E68ED2B20AE155B00A2DD47 /* Main.storyboard */,
 			);
 			path = bitcoinGO;
 			sourceTree = "<group>";
