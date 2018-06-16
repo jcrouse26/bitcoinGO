@@ -15,6 +15,11 @@
 // WARNING: If setInitialCoin returns false because userLocation returned nil, it will not be called once user location is found
 // Should use NSUserDefaults for onboarding alerts
 
+// A few notes for release:
+// Make sure distances are set correctly for radius of circle query and capture radius
+
+// Not sure why the circleQuery remove key does not work properly
+
 import UIKit
 import MapKit
 import CoreLocation
@@ -41,8 +46,6 @@ class MapViewController: UIViewController {
 	var didCreateKeysInFirebase = false
 	var didShowFirstKeyAlert = false
 	var didShowSecondKeyAlert = false
-	
-    //var didQueryKeys = false
     
     // This is for database
     var ref : DatabaseReference!
@@ -60,26 +63,19 @@ class MapViewController: UIViewController {
 	var startingCoordinate = CLLocationCoordinate2D(latitude: 37.770655, longitude: -122.434400)
 	
 	// keeping below for reference
-	//let endingCoordinateX = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.387910)
-	//let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
+	// let endingCoordinateX = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.387910)
+	// let endingCoordinateY = CLLocationCoordinate2D(latitude: 37.729987, longitude: -122.511065)
 	// var startingCoordinate = CLLocationCoordinate2D(latitude: 37.805345, longitude: -122.511065) // big map 100x100
-    
+	// let belcher : CLLocation = CLLocation(latitude: 37.768360, longitude: -122.430378)
 	
-    
-    let belcher : CLLocation = CLLocation(latitude: 37.768360, longitude: -122.430378)
-    
-    
-    
 	func createKeysInFirebase(withStartingLocation location: CLLocation) -> Bool {
         let degreesVert = 0.001000 // == number of degrees moved vertically // Latitude
         let degreesHorz = 0.001500 // == number of degrees moved horizontally // Longitude
 		
-		// take the user location, plant keys starting with user location minus the long by the above *5
-		// and plus the lat
+		// Plant a 10x10 grid of keys centered around user and up slightly
 		startingCoordinate.latitude = location.coordinate.latitude + (5 * degreesVert) + (degreesVert/2)
 		startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesHorz)
-		
-        //self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
+	
 		keyRef?.removeValue()
         
         // This code is needed if pins ever get erased
@@ -204,12 +200,7 @@ extension MapViewController: MKMapViewDelegate {
         
         if annotation.isMember(of: MKUserLocation.self) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "User")
-            //annotationView.image = UIImage(named: "user")
-            //let transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            //annotationView.transform = transform
-			//annotationView.displayPriority = MKFeatureDisplayPriority(700)
-            // return nil for stock image
-            return nil
+            return nil // blue dot
         } else if annotation.isMember(of: KeyAnnotation.self) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: keyIdentifier)
             annotationView.image = UIImage(named: "key")
