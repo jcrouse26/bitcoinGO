@@ -90,7 +90,7 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
 		
         // Segue to MapViewController if user is logged in
         if Auth.auth().currentUser != nil {
-            //performSegue(withIdentifier: "pushToMapView", sender: self)
+            performSegue(withIdentifier: "pushToMapView", sender: self)
 		} else {
 			print("user not logged into firebase")
 		}
@@ -107,7 +107,7 @@ class HomeViewController: UIViewController, LoginButtonDelegate {
 				// user is signed in
 				print("user is signed in")
 				// go to feature controller
-				//self.performSegue(withIdentifier: "pushToMapView", sender: self)
+				self.performSegue(withIdentifier: "pushToMapView", sender: self)
 			} else {
 				// user is not signed in
 				// go to login controller
