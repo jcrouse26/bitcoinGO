@@ -58,6 +58,7 @@ class MapViewController: UIViewController {
     var coinsRef: DatabaseReference?
     var keyRef: DatabaseReference?
     var userRef: DatabaseReference?
+	var keyCountRef: DatabaseReference?
     
     // Set the intial coordinate for creating keys
 	var startingCoordinate = CLLocationCoordinate2D(latitude: 37.770655, longitude: -122.434400)
@@ -144,12 +145,21 @@ class MapViewController: UIViewController {
         //keyRef = usersRef?.child("keys")
 		keyRef = Database.database().reference().child("keys")
         userRef = usersRef?.child("user")
+		keyCountRef = userRef?.child("keyCount")
         
         geoFireForKeys = GeoFire(firebaseRef: keyRef!)
         geoFireForCoins = GeoFire(firebaseRef: coinsRef!)
         geoFireForUser = GeoFire(firebaseRef: userRef!)
 		
         retrieveGeofireSnapshot()
+		
+		// update key count from firebase, update text label
+		keyCountRef?.observeSingleEvent(of: .value, with: { (snapshot) in
+			self.keyWinnings = snapshot.value as! Int
+			print("this succeeded")
+			self.keyWinningsLabel.text = String(self.keyWinnings)
+		})
+		
     }
     
     func retrieveGeofireSnapshot() {
@@ -261,6 +271,9 @@ extension MapViewController: MKMapViewDelegate {
                         let newAnno = KeyAnnotation(coordinate: view.annotation!.coordinate, title: view.annotation!.title!)
                         keyWinnings += 1
 						self.keyWinningsLabel.text = String(keyWinnings)
+						
+						self.keyCountRef?.setValue(keyWinnings)
+						
                         self.mapView.removeAnnotation(view.annotation!)
                         self.geoFireForKeys = GeoFire(firebaseRef: keyRef!)
                         self.geoFireForKeys?.setLocation(CLLocation(latitude: 0, longitude: 0), forKey: newAnno.title!)
@@ -309,6 +322,7 @@ extension MapViewController: MKMapViewDelegate {
 						self.mapView.addAnnotation(annotation)
 						keyWinnings -= 2
 						keyWinningsLabel.text = String(keyWinnings)
+						self.keyCountRef?.setValue(keyWinnings)
 					} else {
 						let alert = UIAlertController(title: "Sorry", message: "You are out of keys needed to unlock this Bitcoin. Please collect more keys and try again.", preferredStyle: UIAlertControllerStyle.alert)
 						
