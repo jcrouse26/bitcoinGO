@@ -128,6 +128,16 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
+		mapView.isPitchEnabled = true
+		mapView.isRotateEnabled = true
+		
+		// Screw around with pitch of camera
+		/*if let userLoc = userLocation?.coordinate {
+			let camera = MKMapCamera.init(lookingAtCenter: userLoc, fromDistance: CLLocationDistance(100), pitch: 45, heading: CLLocationDirection(90))
+			mapView.setCamera(camera, animated: true)
+		}*/
+		
+
         
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestAlwaysAuthorization()
@@ -152,12 +162,14 @@ class MapViewController: UIViewController {
         geoFireForUser = GeoFire(firebaseRef: userRef!)
         
         retrieveGeofireSnapshot()
-        
+		
         // update key count from firebase, update text label
-        keyCountRef?.observeSingleEvent(of: .value, with: { (snapshot) in
-            self.keyWinnings = snapshot.value as! Int
-            print("this succeeded")
-            self.keyWinningsLabel.text = String(self.keyWinnings)
+        keyCountRef!.observeSingleEvent(of: .value, with: { (snapshot) in
+			if let result = snapshot.value as? Int {
+				self.keyWinnings = result
+				print("this succeeded")
+				self.keyWinningsLabel.text = String(self.keyWinnings)
+			}
         })
         
     }
