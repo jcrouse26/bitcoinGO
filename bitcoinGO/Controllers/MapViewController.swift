@@ -142,8 +142,8 @@ class MapViewController: UIViewController {
 		
 		usersRef = geoFireRef?.child("\(userID)")
         coinsRef = usersRef?.child("coins")
-        //keyRef = usersRef?.child("keys")
-		keyRef = Database.database().reference().child("keys")
+        keyRef = usersRef?.child("keys")
+		//keyRef = Database.database().reference().child("keys")
         userRef = usersRef?.child("user")
 		keyCountRef = userRef?.child("keyCount")
         
