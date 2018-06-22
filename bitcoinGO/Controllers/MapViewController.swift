@@ -40,6 +40,9 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var userLocation: CLLocation?
     var previousDegrees : Double = -75 // set heading for WNW
+	
+	let keyRadius : Double = 0.075
+	let collectRadius : Double = 50
     
     var didSetKeysOnMap = false
     var didSetInitialCoin = false
@@ -101,7 +104,7 @@ class MapViewController: UIViewController {
     }
     
     func showKeysOnMap(forLocation location: CLLocation) {
-        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.075)
+        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: keyRadius)
         _ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
             if self.mapView.annotations.contains(where: { (mka) -> Bool in
@@ -271,7 +274,7 @@ extension MapViewController: MKMapViewDelegate {
         if let userCoordinate = userLocation {
             
             // Make sure the tapped item is within range of the users location.
-            if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= 50 {
+            if userCoordinate.distance(from: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) <= collectRadius {
                 // Add to array of winnings
                 
                 if let title = view.annotation!.title! {
