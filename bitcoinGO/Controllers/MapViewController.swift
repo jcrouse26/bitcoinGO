@@ -40,9 +40,9 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var userLocation: CLLocation?
     var previousDegrees : Double = -75 // set heading for WNW
-	
-	let keyRadius : Double = 0.075
-	let collectRadius : Double = 50
+    
+    let keyRadius : Double = 0.075
+    let collectRadius : Double = 50
     
     var didSetKeysOnMap = false
     var didSetInitialCoin = false
@@ -88,8 +88,8 @@ class MapViewController: UIViewController {
             var i = 0
             var annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
             while i < 10 {
-				let latAdjust = (Double(arc4random_uniform(50)) - Double(25)) / 100 * degreesLat
-				let longAdjust = (Double(arc4random_uniform(50)) - Double(25)) / 100 * degreesLong
+                let latAdjust = (Double(arc4random_uniform(50)) - Double(25)) / 100 * degreesLat
+                let longAdjust = (Double(arc4random_uniform(50)) - Double(25)) / 100 * degreesLong
                 annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
                 self.geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude + latAdjust, longitude: annotation.coordinate.longitude + longAdjust), forKey: annotation.title!)
                 startingCoordinate.longitude += degreesLong
@@ -133,15 +133,15 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         mapView.userTrackingMode = MKUserTrackingMode.followWithHeading
-		mapView.isPitchEnabled = true
-		mapView.isRotateEnabled = true
-		
-		// Screw around with pitch of camera
-		/*if let userLoc = userLocation?.coordinate {
-			let camera = MKMapCamera.init(lookingAtCenter: userLoc, fromDistance: CLLocationDistance(100), pitch: 45, heading: CLLocationDirection(90))
-			mapView.setCamera(camera, animated: true)
-		}*/
-		
+        mapView.isPitchEnabled = true
+        mapView.isRotateEnabled = true
+        
+        // Screw around with pitch of camera
+        /*if let userLoc = userLocation?.coordinate {
+            let camera = MKMapCamera.init(lookingAtCenter: userLoc, fromDistance: CLLocationDistance(100), pitch: 45, heading: CLLocationDirection(90))
+            mapView.setCamera(camera, animated: true)
+        }*/
+        
 
         
         if CLLocationManager.authorizationStatus() == .notDetermined {
@@ -167,14 +167,14 @@ class MapViewController: UIViewController {
         geoFireForUser = GeoFire(firebaseRef: userRef!)
         
         retrieveGeofireSnapshot()
-		
+        
         // update key count from firebase, update text label
         keyCountRef!.observeSingleEvent(of: .value, with: { (snapshot) in
-			if let result = snapshot.value as? Int {
-				self.keyWinnings = result
-				print("this succeeded")
-				self.keyWinningsLabel.text = String(self.keyWinnings)
-			}
+            if let result = snapshot.value as? Int {
+                self.keyWinnings = result
+                print("this succeeded")
+                self.keyWinningsLabel.text = String(self.keyWinnings)
+            }
         })
         
     }
