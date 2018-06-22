@@ -70,12 +70,12 @@ class MapViewController: UIViewController {
     // let belcher : CLLocation = CLLocation(latitude: 37.768360, longitude: -122.430378)
     
     func createKeysInFirebase(withStartingLocation location: CLLocation) -> Bool {
-        let degreesVert = 0.001000 // == number of degrees moved vertically // Latitude
-        let degreesHorz = 0.001500 // == number of degrees moved horizontally // Longitude
+        let degreesLat = 0.001000 // == number of degrees moved vertically // Latitude
+        let degreesLong = 0.001500 // == number of degrees moved horizontally // Longitude
         
         // Plant a 10x10 grid of keys centered around user and up slightly
-        startingCoordinate.latitude = location.coordinate.latitude + (5 * degreesVert) + (degreesVert/2)
-        startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesHorz)
+        startingCoordinate.latitude = location.coordinate.latitude + (5 * degreesLat) + (degreesLat/2)
+        startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesLong)
     
         keyRef?.removeValue()
         
@@ -85,13 +85,15 @@ class MapViewController: UIViewController {
             var i = 0
             var annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
             while i < 10 {
+				let latAdjust = (Double(arc4random_uniform(50)) - Double(25)) / 100 * degreesLat
+				let longAdjust = (Double(arc4random_uniform(50)) - Double(25)) / 100 * degreesLong
                 annotation = KeyAnnotation(coordinate: startingCoordinate, title: "key\(i+1, j+1)")
-                self.geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude), forKey: annotation.title!)
-                startingCoordinate.longitude += degreesHorz
+                self.geoFireForKeys?.setLocation(CLLocation(latitude: annotation.coordinate.latitude + latAdjust, longitude: annotation.coordinate.longitude + longAdjust), forKey: annotation.title!)
+                startingCoordinate.longitude += degreesLong
                 i += 1
             }
-            startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesHorz)
-            startingCoordinate.latitude -= degreesVert
+            startingCoordinate.longitude = location.coordinate.longitude - (5 * degreesLong)
+            startingCoordinate.latitude -= degreesLat
             j += 1
         }
         
@@ -99,7 +101,7 @@ class MapViewController: UIViewController {
     }
     
     func showKeysOnMap(forLocation location: CLLocation) {
-        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.15)
+        let circleQuery = self.geoFireForKeys!.query(at: location, withRadius: 0.075)
         _ = circleQuery.observe(GFEventType.keyEntered, with: { (key, location) in
             let anno = KeyAnnotation(coordinate: location.coordinate, title: key)
             if self.mapView.annotations.contains(where: { (mka) -> Bool in
